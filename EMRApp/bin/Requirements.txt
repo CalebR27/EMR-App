@@ -1,0 +1,2 @@
+Requires JDK 12 or higher
+Requires JDBC Driver 4.7 for JRE12
