@@ -98,7 +98,7 @@ public class AddMedicationPanel extends JPanel {
                 }
                 if(time == null) {
                     newMedication = null;
-                    System.out.println("The Time is not in the correct format");
+                    System.out.println("The Time is not in the correct format.");
                     JOptionPane.showMessageDialog(null, "The Time is not in the correct format.");
                     return;
                 }
