@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.Period;
+
 public class Patient {
 
     private String name;
@@ -16,6 +19,24 @@ public class Patient {
         this.notes = null;
     }
 
+    public Patient(String name, String DOB, String sex, String notes) {
+        this.name = name;
+        this.DOB = DOB;
+        this.age = calculateAge();
+        this.sex = sex;
+        this.PID = 0;
+        this.notes = notes;
+    }
+
+    public Patient(String name, String DOB, String sex, int PID, String notes) {
+        this.name = name;
+        this.DOB = DOB;
+        this.age = calculateAge();
+        this.sex = sex;
+        this.PID = PID;
+        this.notes = notes;
+    }
+
     public Patient(String name, int age, String DOB, String sex, int PID, String notes) {
         this.name = name;
         this.age = age;
@@ -23,6 +44,17 @@ public class Patient {
         this.sex = sex;
         this.PID = PID;
         this.notes = notes;
+    }
+
+    private int calculateAge() {
+
+        //Getting the year, month, and day of the DOB with format MM/dd/yyyy
+        int year = Integer.valueOf(this.DOB.substring(6)).intValue();
+        int month = Integer.valueOf(this.DOB.substring(0, 2)).intValue();
+        int day = Integer.valueOf(this.DOB.substring(3, 5)).intValue();
+        
+        LocalDate DOB = LocalDate.of(year, month, day);
+        return Period.between(DOB, LocalDate.now()).getYears();
     }
 
     public String getName() {

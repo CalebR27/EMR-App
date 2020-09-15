@@ -78,6 +78,16 @@ public class AddMedicationPanel extends JPanel {
         finishButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+
+                if (nameField.getText().equals("") || frequencyField.getText().equals("") || PIDField.getText().equals("") ||
+                    routeField.getText().equals("") || timeField.getText().equals("") || MIDField.getText().equals("")) {
+                        System.out.println("Please do not leave any fields empty.");
+                        JOptionPane.showMessageDialog(null, "Please do not leave any fields empty.");
+                        return; 
+                }
+
+                
+
                 Medication newMedication = new Medication(nameField.getText(), frequencyField.getText(),
                     Integer.valueOf(PIDField.getText()).intValue(), routeField.getText(), timeField.getText(),
                     MIDField.getText());
@@ -208,6 +218,16 @@ public class AddMedicationPanel extends JPanel {
         finishButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+
+                if (nameField.getText().equals("") || frequencyField.getText().equals("") || PIDField.getText().equals("") ||
+                    routeField.getText().equals("") || timeField.getText().equals("") || MIDField.getText().equals("")) {
+                        System.out.println("Please do not leave any fields empty.");
+                        JOptionPane.showMessageDialog(null, "Please do not leave any fields empty.");
+                        return; 
+                }
+
+
+
                 Medication newMedication = new Medication(nameField.getText(), frequencyField.getText(),
                     Integer.valueOf(PIDField.getText()).intValue(), routeField.getText(), timeField.getText(),
                     MIDField.getText());
@@ -232,6 +252,7 @@ public class AddMedicationPanel extends JPanel {
                     JOptionPane.showMessageDialog(null, "The Time is not in the correct format.");
                     return;
                 }
+
                 ArrayList<Medication> medications = new ArrayList<Medication>();
                 medications.add(newMedication);
                 fireDirectoryButtonEvent(new DirectoryEvent(this, medications));

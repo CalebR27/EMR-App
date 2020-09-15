@@ -32,6 +32,27 @@ public class AddMedicationFrame extends JFrame {
                         update.add("'" + m.getRoute() + "'");
                         update.add("'" + m.getTime() + "'");
                         update.add("'" + m.getMID() + "'");
+
+                        try {
+                            if (Database.get("Medication", "MID", m.getMID()).size() > 0) {
+                                System.out.println("Medication with this MID already exists.");
+                                JOptionPane.showMessageDialog(null, "Medication with this MID already exists.");
+                                return;
+                            }
+
+                            if (Database.get("Patients", "PID", m.getPID()).size() == 0) {
+                                System.out.println("Cannot find patient with this PID.");
+                                JOptionPane.showMessageDialog(null, "Cannot find patient with this PID.");
+                                return;
+                            }
+                        } catch (HeadlessException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
                         Database.post("Medication", update);
                     }
                 }     

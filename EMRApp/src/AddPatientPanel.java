@@ -31,20 +31,28 @@ public class AddPatientPanel extends JPanel {
         gc.gridy = 0;
         add(nameField, gc);
 
-        JTextField ageField = new JTextField(15);
-        TextPrompt agePrompt = new TextPrompt("Age", ageField);
-        agePrompt.setForeground(Color.GRAY);
-        ageField.add(agePrompt);
+        /*
+         * JTextField ageField = new JTextField(15); TextPrompt agePrompt = new
+         * TextPrompt("Age", ageField); agePrompt.setForeground(Color.GRAY);
+         * ageField.add(agePrompt); gc.gridx = 0; gc.gridy = 1; add(ageField, gc);
+         */
+
+        /*
+        JTextField PIDField = new JTextField(15);
+        TextPrompt PIDPrompt = new TextPrompt("PID ######", PIDField);
+        PIDPrompt.setForeground(Color.GRAY);
+        PIDField.add(PIDPrompt);
         gc.gridx = 0;
         gc.gridy = 1;
-        add(ageField, gc);
+        add(PIDField, gc);
+        */
 
         JTextField DOBField = new JTextField(15);
         TextPrompt DOBPrompt = new TextPrompt("Date of Birth mm/dd/yyyy", DOBField);
         DOBPrompt.setForeground(Color.GRAY);
         DOBField.add(DOBPrompt);
         gc.gridx = 0;
-        gc.gridy = 2;
+        gc.gridy = 1;
         add(DOBField, gc);
 
         JTextField heightField = new JTextField(15);
@@ -52,15 +60,15 @@ public class AddPatientPanel extends JPanel {
         heightPrompt.setForeground(Color.GRAY);
         heightField.add(heightPrompt);
         gc.gridx = 0;
-        gc.gridy = 3;
+        gc.gridy = 2;
         add(heightField, gc);
 
         JTextField weightField = new JTextField(15);
-        TextPrompt weightPrompt = new TextPrompt("Weight", weightField);
+        TextPrompt weightPrompt = new TextPrompt("Weight (lbs)", weightField);
         weightPrompt.setForeground(Color.GRAY);
         weightField.add(weightPrompt);
         gc.gridx = 0;
-        gc.gridy = 4;
+        gc.gridy = 3;
         add(weightField, gc);
 
         JTextField BPMField = new JTextField(15);
@@ -68,31 +76,27 @@ public class AddPatientPanel extends JPanel {
         BPMPrompt.setForeground(Color.GRAY);
         BPMField.add(BPMPrompt);
         gc.gridx = 0;
-        gc.gridy = 5;
+        gc.gridy = 4;
         add(BPMField, gc);
 
-        JTextField sexField = new JTextField(15);
-        TextPrompt sexPrompt = new TextPrompt("Sex", sexField);
-        sexPrompt.setForeground(Color.GRAY);
-        sexField.add(sexPrompt);
+        String sexOptions[] = { "Male", "Female", "Other" };
+        JComboBox<String> sexField = new JComboBox<String>(sexOptions);
+        sexField.setEditable(true);
+        sexField.setSelectedItem(new String("<Select Sex>"));
+        sexField.setBackground(Color.WHITE);
+        sexField.setSize(sexField.getPreferredSize());
+        Font font = new Font("Dialog", Font.PLAIN, 12);
+        sexField.setFont(font);
         gc.gridx = 1;
         gc.gridy = 0;
         add(sexField, gc);
-
-        JTextField PIDField = new JTextField(15);
-        TextPrompt PIDPrompt = new TextPrompt("PID", PIDField);
-        PIDPrompt.setForeground(Color.GRAY);
-        PIDField.add(PIDPrompt);
-        gc.gridx = 1;
-        gc.gridy = 1;
-        add(PIDField, gc);
 
         JTextField notesField = new JTextField(15);
         TextPrompt notesPrompt = new TextPrompt("Notes", notesField);
         notesPrompt.setForeground(Color.GRAY);
         notesField.add(notesPrompt);
         gc.gridx = 1;
-        gc.gridy = 2;
+        gc.gridy = 1;
         add(notesField, gc);
 
         JTextField temperatureField = new JTextField(15);
@@ -100,7 +104,7 @@ public class AddPatientPanel extends JPanel {
         temperaturePrompt.setForeground(Color.GRAY);
         temperatureField.add(temperaturePrompt);
         gc.gridx = 1;
-        gc.gridy = 3;
+        gc.gridy = 2;
         add(temperatureField, gc);
 
         JTextField BPField = new JTextField(15);
@@ -108,7 +112,7 @@ public class AddPatientPanel extends JPanel {
         BPPrompt.setForeground(Color.GRAY);
         BPField.add(BPPrompt);
         gc.gridx = 1;
-        gc.gridy = 4;
+        gc.gridy = 3;
         add(BPField, gc);
 
         JTextField positionField = new JTextField(15);
@@ -116,7 +120,7 @@ public class AddPatientPanel extends JPanel {
         positionPrompt.setForeground(Color.GRAY);
         positionField.add(positionPrompt);
         gc.gridx = 1;
-        gc.gridy = 5;
+        gc.gridy = 4;
         add(positionField, gc);
 
         // Create Add New Patient Button
@@ -126,9 +130,29 @@ public class AddPatientPanel extends JPanel {
         finishButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                Patient newPatient = new Patient(nameField.getText(), Integer.valueOf(ageField.getText()).intValue(),
-                        DOBField.getText(), sexField.getText(), Integer.valueOf(PIDField.getText()).intValue(),
-                        notesField.getText());
+
+                if (nameField.getText().equals("") || DOBField.getText().equals("")
+                        || sexField.getSelectedItem().toString().equals("") || notesField.getText().equals("")
+                        || heightField.getText().equals("") || weightField.getText().equals("")
+                        || BPMField.getText().equals("") || temperatureField.getText().equals("")
+                        || BPField.getText().equals("") || positionField.getText().equals("")) {
+                    System.out.println("Please do not leave any fields empty.");
+                    JOptionPane.showMessageDialog(null, "Please do not leave any fields empty.");
+                    return;
+                }
+
+                // Checking to see if the sex field is not male, female, or other
+                if (!sexField.getSelectedItem().toString().equals("Male")
+                        && !sexField.getSelectedItem().toString().equals("Female")
+                        && !sexField.getSelectedItem().toString().equals("Other")) {
+                    System.out.println("The patient's sex must be selected from the dropdown.");
+                    JOptionPane.showMessageDialog(null, "The patient's sex must be selected from the dropdown.");
+                    return;
+                }
+
+                Patient newPatient = new Patient(nameField.getText(), DOBField.getText(),
+                    sexField.getSelectedItem().toString(), notesField.getText());
+
 
                 // Check to see if the DOB is in the mm/dd/yyyy format
                 String java_pattern = "MM/dd/yyyy";
@@ -137,23 +161,25 @@ public class AddPatientPanel extends JPanel {
                 Date DOB = null;
                 try {
                     DOB = sdf.parse(patient_DOB);
-                    if(!patient_DOB.equals(sdf.format(DOB))){
+                    if (!patient_DOB.equals(sdf.format(DOB))) {
                         DOB = null;
                     }
-                } catch (ParseException e1) {
+                } catch (ParseException e2) {
                     // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    e2.printStackTrace();
                 }
-                if(DOB == null) {
+                if (DOB == null) {
                     newPatient = null;
                     System.out.println("DOB is not in the correct format");
                     JOptionPane.showMessageDialog(null, "The DOB is not in the correct format.");
                     return;
                 }
 
-                Vitals newVitals = new Vitals(Integer.valueOf(heightField.getText()).intValue(), Integer.valueOf(weightField.getText()).intValue(),
-                    Integer.valueOf(BPMField.getText()).intValue(), Integer.valueOf(temperatureField.getText()).intValue(),
-                    Integer.valueOf(PIDField.getText()).intValue(), BPField.getText(), positionField.getText());
+                Vitals newVitals = new Vitals(Integer.valueOf(heightField.getText()).intValue(),
+                        Integer.valueOf(weightField.getText()).intValue(),
+                        Integer.valueOf(BPMField.getText()).intValue(),
+                        Integer.valueOf(temperatureField.getText()).intValue(),
+                        BPField.getText(), positionField.getText());
 
                 fireDirectoryButtonEvent(new DirectoryEvent(this, newPatient, newVitals));
             }
@@ -168,28 +194,26 @@ public class AddPatientPanel extends JPanel {
         gc.gridy = 6;
         add(finishButton, gc);
 
-
-        //Create Cancel Button
+        // Create Cancel Button
         JButton cancelButton = new JButton("Cancel");
 
-        //Add a listener to change back to Main frame without saving any changes
+        // Add a listener to change back to Main frame without saving any changes
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 fireDirectoryButtonEvent(new DirectoryEvent(this));
             }
         });
 
-        //Add Cancel Button
+        // Add Cancel Button
         gc.anchor = GridBagConstraints.LINE_START;
         gc.weightx = 1;
         gc.weighty = 0;
         gc.gridx = 1;
         gc.gridy = 6;
-        add(cancelButton,gc);
+        add(cancelButton, gc);
     }
 
-
-    //Constructor that is called when we're editing an existing patient
+    // Constructor that is called when we're editing an existing patient
     public AddPatientPanel(Patient patient, Vitals vitals) {
         Dimension size = getPreferredSize();
         size.width = 400;
@@ -212,14 +236,24 @@ public class AddPatientPanel extends JPanel {
         gc.gridy = 0;
         add(nameField, gc);
 
-        JTextField ageField = new JTextField(15);
-        TextPrompt agePrompt = new TextPrompt("Age", ageField);
-        ageField.setText(Integer.toString(patient.getAge()));
-        agePrompt.setForeground(Color.GRAY);
-        ageField.add(agePrompt);
+        JTextField PIDField = new JTextField(15);
+        TextPrompt PIDPrompt = new TextPrompt("PID ######", PIDField);
+        PIDField.setEditable(false);
+        PIDField.setText(Integer.toString(patient.getPID()));
+        PIDPrompt.setForeground(Color.GRAY);
+        PIDField.add(PIDPrompt);
         gc.gridx = 0;
         gc.gridy = 1;
-        add(ageField, gc);
+        PIDField.setEditable(false);
+        add(PIDField, gc);
+
+        /*
+         * JTextField ageField = new JTextField(15); TextPrompt agePrompt = new
+         * TextPrompt("Age", ageField);
+         * ageField.setText(Integer.toString(patient.getAge()));
+         * agePrompt.setForeground(Color.GRAY); ageField.add(agePrompt); gc.gridx = 0;
+         * gc.gridy = 1; add(ageField, gc);
+         */
 
         JTextField DOBField = new JTextField(15);
         TextPrompt DOBPrompt = new TextPrompt("Date of Birth mm/dd/yyyy", DOBField);
@@ -240,7 +274,7 @@ public class AddPatientPanel extends JPanel {
         add(heightField, gc);
 
         JTextField weightField = new JTextField(15);
-        TextPrompt weightPrompt = new TextPrompt("Weight", weightField);
+        TextPrompt weightPrompt = new TextPrompt("Weight (lbs)", weightField);
         weightField.setText(Integer.toString(vitals.getWeight()));
         weightPrompt.setForeground(Color.GRAY);
         weightField.add(weightPrompt);
@@ -257,23 +291,17 @@ public class AddPatientPanel extends JPanel {
         gc.gridy = 5;
         add(BPMField, gc);
 
-        JTextField sexField = new JTextField(15);
-        TextPrompt sexPrompt = new TextPrompt("Sex", sexField);
-        sexField.setText(patient.getSex());
-        sexPrompt.setForeground(Color.GRAY);
-        sexField.add(sexPrompt);
+        String sexOptions[] = { "Male", "Female", "Other" };
+        JComboBox<String> sexField = new JComboBox<String>(sexOptions);
+        sexField.setSelectedItem(patient.getSex().toString());
+        sexField.setEditable(true);
+        sexField.setBackground(Color.WHITE);
+        sexField.setSize(sexField.getPreferredSize());
+        Font font = new Font("Dialog", Font.PLAIN, 12);
+        sexField.setFont(font);
         gc.gridx = 1;
         gc.gridy = 0;
         add(sexField, gc);
-
-        JTextField PIDField = new JTextField(15);
-        TextPrompt PIDPrompt = new TextPrompt("PID", PIDField);
-        PIDField.setText(Integer.toString(patient.getPID()));
-        PIDPrompt.setForeground(Color.GRAY);
-        PIDField.add(PIDPrompt);
-        gc.gridx = 1;
-        gc.gridy = 1;
-        add(PIDField, gc);
 
         JTextField notesField = new JTextField(15);
         TextPrompt notesPrompt = new TextPrompt("Notes", notesField);
@@ -281,7 +309,7 @@ public class AddPatientPanel extends JPanel {
         notesPrompt.setForeground(Color.GRAY);
         notesField.add(notesPrompt);
         gc.gridx = 1;
-        gc.gridy = 2;
+        gc.gridy = 1;
         add(notesField, gc);
 
         JTextField temperatureField = new JTextField(15);
@@ -290,7 +318,7 @@ public class AddPatientPanel extends JPanel {
         temperaturePrompt.setForeground(Color.GRAY);
         temperatureField.add(temperaturePrompt);
         gc.gridx = 1;
-        gc.gridy = 3;
+        gc.gridy = 2;
         add(temperatureField, gc);
 
         JTextField BPField = new JTextField(15);
@@ -299,7 +327,7 @@ public class AddPatientPanel extends JPanel {
         BPPrompt.setForeground(Color.GRAY);
         BPField.add(BPPrompt);
         gc.gridx = 1;
-        gc.gridy = 4;
+        gc.gridy = 3;
         add(BPField, gc);
 
         JTextField positionField = new JTextField(15);
@@ -308,7 +336,7 @@ public class AddPatientPanel extends JPanel {
         positionPrompt.setForeground(Color.GRAY);
         positionField.add(positionPrompt);
         gc.gridx = 1;
-        gc.gridy = 5;
+        gc.gridy = 4;
         add(positionField, gc);
 
         // Create Add New Patient Button
@@ -318,9 +346,31 @@ public class AddPatientPanel extends JPanel {
         finishButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                Patient newPatient = new Patient(nameField.getText(), Integer.valueOf(ageField.getText()).intValue(),
-                    DOBField.getText(), sexField.getText(), Integer.valueOf(PIDField.getText()).intValue(),
-                    notesField.getText());
+
+                // Checking to see if any fields were left empty
+                if (nameField.getText().equals("") || DOBField.getText().equals("")
+                        || sexField.getSelectedItem().toString().equals("") || PIDField.getText().equals("")
+                        || notesField.getText().equals("") || heightField.getText().equals("")
+                        || weightField.getText().equals("") || BPMField.getText().equals("")
+                        || temperatureField.getText().equals("") || BPField.getText().equals("")
+                        || positionField.getText().equals("")) {
+                    System.out.println("Please do not leave any fields empty.");
+                    JOptionPane.showMessageDialog(null, "Please do not leave any fields empty.");
+                    return;
+                }
+
+                // Checking to see if the sex field does not contain male, female, or other
+                if (!sexField.getSelectedItem().toString().equals("Male")
+                        && !sexField.getSelectedItem().toString().equals("Female")
+                        && !sexField.getSelectedItem().toString().equals("Other")) {
+                    System.out.println("The patient's sex must be selected from the dropdown.");
+                    JOptionPane.showMessageDialog(null, "The patient's sex must be selected from the dropdown.");
+                    return;
+                }
+
+                Patient newPatient = new Patient(nameField.getText(), DOBField.getText(),
+                        sexField.getSelectedItem().toString(), Integer.valueOf(PIDField.getText()).intValue(),
+                        notesField.getText());
 
                 // Check to see if the DOB is in the mm/dd/yyyy format
                 String java_pattern = "MM/dd/yyyy";
@@ -329,23 +379,25 @@ public class AddPatientPanel extends JPanel {
                 Date DOB = null;
                 try {
                     DOB = sdf.parse(patient_DOB);
-                    if(!patient_DOB.equals(sdf.format(DOB))){
+                    if (!patient_DOB.equals(sdf.format(DOB))) {
                         DOB = null;
                     }
                 } catch (ParseException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-                if(DOB == null) {
+                if (DOB == null) {
                     newPatient = null;
                     System.out.println("DOB is not in the correct format");
                     JOptionPane.showMessageDialog(null, "The DOB is not in the correct format.");
                     return;
                 }
 
-                Vitals newVitals = new Vitals(Integer.valueOf(heightField.getText()).intValue(), Integer.valueOf(weightField.getText()).intValue(),
-                    Integer.valueOf(BPMField.getText()).intValue(), Integer.valueOf(temperatureField.getText()).intValue(),
-                    Integer.valueOf(PIDField.getText()).intValue(), BPField.getText(), positionField.getText());
+                Vitals newVitals = new Vitals(Integer.valueOf(heightField.getText()).intValue(),
+                        Integer.valueOf(weightField.getText()).intValue(),
+                        Integer.valueOf(BPMField.getText()).intValue(),
+                        Integer.valueOf(temperatureField.getText()).intValue(),
+                        Integer.valueOf(PIDField.getText()).intValue(), BPField.getText(), positionField.getText());
                 fireDirectoryButtonEvent(new DirectoryEvent(this, newPatient, newVitals));
             }
 
@@ -359,24 +411,23 @@ public class AddPatientPanel extends JPanel {
         gc.gridy = 6;
         add(finishButton, gc);
 
-        
-        //Create Cancel Button
+        // Create Cancel Button
         JButton cancelButton = new JButton("Cancel");
 
-        //Add a listener to change back to Main frame without saving any changes
+        // Add a listener to change back to Main frame without saving any changes
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 fireDirectoryButtonEvent(new DirectoryEvent(this));
             }
         });
 
-        //Add Cancel Button
+        // Add Cancel Button
         gc.anchor = GridBagConstraints.LINE_START;
         gc.weightx = 1;
         gc.weighty = 0;
         gc.gridx = 1;
         gc.gridy = 6;
-        add(cancelButton,gc);
+        add(cancelButton, gc);
     }
 
     public void fireDirectoryButtonEvent(DirectoryEvent event) {

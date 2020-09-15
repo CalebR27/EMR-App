@@ -9,20 +9,21 @@ public class AddPatientFrame extends JFrame {
 
     private AddPatientPanel addPatientPanel;
 
-    public AddPatientFrame (String title) {
+    public AddPatientFrame(String title) {
         super(title);
         setLayout(new BorderLayout());
         Container container = getContentPane();
 
-        //Initializing panel
+        // Initializing panel
         this.addPatientPanel = new AddPatientPanel();
 
-        // Adding event to switch frames back to the Main Frame, and add the new information to the database
+        // Adding event to switch frames back to the Main Frame, and add the new
+        // information to the database
         addPatientPanel.addDirectoryButtonListener(new DirectoryButtonListener() {
             public void directoryEventOccurred(DirectoryEvent event) {
                 Patient newPatient = event.getPatient();
 
-                if(newPatient != null) {
+                if (newPatient != null) {
 
                     ArrayList<String> update = new ArrayList<String>();
 
@@ -30,11 +31,28 @@ public class AddPatientFrame extends JFrame {
                     update.add(Integer.toString(newPatient.getAge()));
                     update.add("'" + newPatient.getDOB() + "'");
                     update.add("'" + newPatient.getSex() + "'");
-                    update.add(Integer.toString(newPatient.getPID()));
                     update.add("'" + newPatient.getNotes() + "'");
-                    Database.post("Patients", update);
+
+                    try {
+                        if (Database.get("Patients", "PID", newPatient.getPID()).size() > 0) {
+                            System.out.println("Patient with this PID already exists.");
+                            JOptionPane.showMessageDialog(null, "Patient with this PID already exists.");
+                            return;
+                        }
+                    } catch (HeadlessException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                    int PID = Database.post("Patients", update);
+                    System.out.println("Just added a new user with PID " + PID);
+                    newPatient.setPID(PID);
 
                     Vitals newVitals = event.getVitals();
+                    newVitals.setPID(PID);
                     update = new ArrayList<String>();
                     update.add(Integer.toString(newVitals.getHeight()));
                     update.add(Integer.toString(newVitals.getWeight()));

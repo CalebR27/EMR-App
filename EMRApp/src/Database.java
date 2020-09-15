@@ -1,5 +1,8 @@
 import java.sql.*;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Database {
 
@@ -74,18 +77,32 @@ public class Database {
         }
     }
 
-    // Insert data into a table. Please ensure that all strings are surrounded by
-    // single quotes
-    public static void post(String tablename, ArrayList<String> array) {
+    // Insert data into a table. Please ensure that all strings are surrounded by single quotes
+    // This method returns the PID of the newly added patient
+    public static int post(String tablename, ArrayList<String> array) {
 
         String values = array.toString();
         values = values.replace("[", "").replace("]", "");
 
         try {
 
+            ReadWriteLock lock = new ReentrantReadWriteLock();
+
+            lock.writeLock().lock();
             Connection conn = getConnection();
             PreparedStatement post = conn.prepareStatement("INSERT INTO " + tablename + " values (" + values + ")");
             post.executeUpdate();
+            conn.close();
+            lock.writeLock().unlock();
+
+            lock.readLock().lock();
+            Connection new_conn = getConnection();
+            PreparedStatement get = new_conn.prepareStatement("SELECT MAX(pid) FROM Patients");
+            ResultSet result = get.executeQuery();
+            ArrayList<ArrayList<String>> results = getResults(result);
+            new_conn.close();
+            lock.readLock().unlock();
+            return Integer.valueOf(results.get(0).get(0)).intValue();
 
         } catch (Exception e) {
 
@@ -97,6 +114,8 @@ public class Database {
             System.out.println("Returning from post");
 
         }
+
+        return 0;
     }
 
     // Adds a column to a table
@@ -206,6 +225,34 @@ public class Database {
     // Overloaded method: queries against database to return rows of a table that
     // match the filter
     public static ArrayList<ArrayList<String>> get(String table, String column, String value) throws Exception {
+        if(!value.startsWith("'")) {
+            value = "'" + value;
+        }
+
+        if (!value.endsWith("'")) {
+            value = value + "'";
+        }
+        
+        try {
+
+            Connection conn = getConnection();
+            PreparedStatement statement = conn
+                    .prepareStatement("SELECT * FROM " + table + " WHERE " + column + "=" + value);
+            ResultSet result = statement.executeQuery();
+
+            System.out.println("The specified records have been selected.");
+            return getResults(result);
+
+        } catch (Exception e) {
+
+            System.out.println(e);
+
+        }
+
+        return null;
+    }
+
+    public static ArrayList<ArrayList<String>> get(String table, String column, int value) throws Exception {
         try {
 
             Connection conn = getConnection();

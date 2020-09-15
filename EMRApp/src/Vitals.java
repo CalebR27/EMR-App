@@ -27,6 +27,16 @@ public class Vitals {
         this.position = position;
     }
 
+    public Vitals (int height, int weight, int BPM, int temperature, String BP, String position) {
+        this.height = height;
+        this.weight = weight;
+        this.BPM = BPM;
+        this.temperature = temperature;
+        this.PID = 0;
+        this.BP = BP;
+        this.position = position;
+    }
+
     public int getHeight() {
         return this.height;
     }
