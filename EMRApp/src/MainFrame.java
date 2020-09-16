@@ -109,9 +109,11 @@ public class MainFrame extends JFrame {
                     frame.setVisible(true);
 
                 } else {
-                    if (current_medication == null && action == null) {
-                        addMedicationFrame = new AddMedicationFrame("Add Medication");
-                    } else if (current_medication != null && action.equals("edit")) {
+                    if (current_medication == null && action == null && patient == null) {
+                        addMedicationFrame = new AddMedicationFrame("Add Medication", 0);
+                    } else if (current_medication == null && action == null && patient != null){
+                        addMedicationFrame = new AddMedicationFrame("Add Medication", patient.getPID());
+                    }else if (current_medication != null && action.equals("edit")) {
                         addMedicationFrame = new AddMedicationFrame("Add Medication", current_medication);
                     }
                 

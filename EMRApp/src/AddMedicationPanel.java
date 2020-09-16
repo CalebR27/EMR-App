@@ -10,7 +10,7 @@ public class AddMedicationPanel extends JPanel {
 
     private EventListenerList listenerList = new EventListenerList();
 
-    public AddMedicationPanel() {
+    public AddMedicationPanel(int PID) {
         Dimension size = getPreferredSize();
         size.width = 400;
         setPreferredSize(size);
@@ -22,7 +22,7 @@ public class AddMedicationPanel extends JPanel {
 
         // Adding fields to add medication info
         JTextField nameField = new JTextField(20);
-        TextPrompt namePrompt = new TextPrompt("Name", nameField);
+        TextPrompt namePrompt = new TextPrompt("Medication Name", nameField);
         namePrompt.setForeground(Color.GRAY);
         nameField.add(namePrompt);
         gc.weightx = 1;
@@ -32,7 +32,10 @@ public class AddMedicationPanel extends JPanel {
         add(nameField, gc);
 
         JTextField PIDField = new JTextField(20);
-        TextPrompt PIDPrompt = new TextPrompt("PID", PIDField);
+        TextPrompt PIDPrompt = new TextPrompt("PID ######", PIDField);
+        if (PID != 0) {
+            PIDField.setText(String.valueOf(PID));
+        }
         PIDPrompt.setForeground(Color.GRAY);
         PIDField.add(PIDPrompt);
         gc.gridx = 0;
@@ -63,6 +66,7 @@ public class AddMedicationPanel extends JPanel {
         gc.gridy = 1;
         add(routeField, gc);
 
+        /*
         JTextField MIDField = new JTextField(20);
         TextPrompt MIDPrompt = new TextPrompt("MID", MIDField);
         MIDPrompt.setForeground(Color.GRAY);
@@ -70,6 +74,7 @@ public class AddMedicationPanel extends JPanel {
         gc.gridx = 1;
         gc.gridy = 2;
         add(MIDField, gc);
+        */
 
         // Create Finish button to save changes
         JButton finishButton = new JButton("Finish");
@@ -80,17 +85,16 @@ public class AddMedicationPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 if (nameField.getText().equals("") || frequencyField.getText().equals("") || PIDField.getText().equals("") ||
-                    routeField.getText().equals("") || timeField.getText().equals("") || MIDField.getText().equals("")) {
+                    routeField.getText().equals("") || timeField.getText().equals("")) {
                         System.out.println("Please do not leave any fields empty.");
                         JOptionPane.showMessageDialog(null, "Please do not leave any fields empty.");
                         return; 
                 }
 
-                
+
 
                 Medication newMedication = new Medication(nameField.getText(), frequencyField.getText(),
-                    Integer.valueOf(PIDField.getText()).intValue(), routeField.getText(), timeField.getText(),
-                    MIDField.getText());
+                    Integer.valueOf(PIDField.getText()).intValue(), routeField.getText(), timeField.getText());
 
                 //Checking to see if the user entered a valid date & time
                 String java_pattern = "MM/dd/yyyy HH:mm";
@@ -156,7 +160,7 @@ public class AddMedicationPanel extends JPanel {
 
         // Adding fields to add medication info
         JTextField nameField = new JTextField(20);
-        TextPrompt namePrompt = new TextPrompt("Name", nameField);
+        TextPrompt namePrompt = new TextPrompt("Medication Name", nameField);
         nameField.setText(medication.getName());
         namePrompt.setForeground(Color.GRAY);
         nameField.add(namePrompt);
@@ -204,6 +208,7 @@ public class AddMedicationPanel extends JPanel {
 
         JTextField MIDField = new JTextField(20);
         TextPrompt MIDPrompt = new TextPrompt("MID", MIDField);
+        MIDField.setEditable(false);
         MIDField.setText(medication.getMID());
         MIDPrompt.setForeground(Color.GRAY);
         MIDField.add(MIDPrompt);

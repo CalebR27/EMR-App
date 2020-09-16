@@ -9,14 +9,14 @@ public class AddMedicationFrame extends JFrame {
 
     private AddMedicationPanel addMedicationPanel;
 
-    public AddMedicationFrame (String title) {
+    public AddMedicationFrame (String title, int PID) {
         super(title);
 
         setLayout(new BorderLayout());
         Container container = getContentPane();
 
         //Initializing panel
-        this.addMedicationPanel = new AddMedicationPanel();
+        this.addMedicationPanel = new AddMedicationPanel(PID);
 
         //Adding event to switch frames back to the Main Frame, and add the medication(s) to the database
         addMedicationPanel.addDirectoryButtonListener(new DirectoryButtonListener() {
@@ -25,13 +25,6 @@ public class AddMedicationFrame extends JFrame {
                 if(medications != null) {
                     for(Medication m : medications) {
                         ArrayList<String> update = new ArrayList<String>();
-
-                        update.add("'" + m.getName() + "'");
-                        update.add("'" + m.getFrequency() + "'");
-                        update.add(Integer.toString(m.getPID()));
-                        update.add("'" + m.getRoute() + "'");
-                        update.add("'" + m.getTime() + "'");
-                        update.add("'" + m.getMID() + "'");
 
                         try {
                             if (Database.get("Medication", "MID", m.getMID()).size() > 0) {
@@ -53,6 +46,12 @@ public class AddMedicationFrame extends JFrame {
                             e.printStackTrace();
                         }
 
+                        update.add("'" + m.getName() + "'");
+                        update.add("'" + m.getFrequency() + "'");
+                        update.add(Integer.toString(m.getPID()));
+                        update.add("'" + m.getRoute() + "'");
+                        update.add("'" + m.getTime() + "'");
+                        update.add("'" + m.getMID() + "'");
                         Database.post("Medication", update);
                     }
                 }     
@@ -67,7 +66,7 @@ public class AddMedicationFrame extends JFrame {
 
         container.add(addMedicationPanel, BorderLayout.CENTER);
     }
-
+    
     public AddMedicationFrame (String title, Medication medication) {
         super(title);
 

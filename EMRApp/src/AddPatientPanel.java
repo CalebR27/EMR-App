@@ -108,7 +108,7 @@ public class AddPatientPanel extends JPanel {
         add(temperatureField, gc);
 
         JTextField BPField = new JTextField(15);
-        TextPrompt BPPrompt = new TextPrompt("BP", BPField);
+        TextPrompt BPPrompt = new TextPrompt("BP ###/##", BPField);
         BPPrompt.setForeground(Color.GRAY);
         BPField.add(BPPrompt);
         gc.gridx = 1;
@@ -149,6 +149,66 @@ public class AddPatientPanel extends JPanel {
                     JOptionPane.showMessageDialog(null, "The patient's sex must be selected from the dropdown.");
                     return;
                 }
+
+                /*
+                //Checking to see if PID is a valid integer
+                if (PIDField.getText().size() == 6) {
+                    try {
+                        if(Integer.parseInt(PIDField.getText()) <= 0) {
+                            System.out.println("The PID must be a 6-digit integer.");
+                            JOptionPane.showMessageDialog(null, "The PID must be a 6-digit integer.");
+                            return;
+                        }
+                    } catch (NumberFormatException e) { 
+                        System.out.println("The PID must be a 6-digit integer.");
+                        JOptionPane.showMessageDialog(null, "The PID must be a 6-digit integer.");
+                        return;
+                    }
+                } else {
+                    System.out.println("The PID must be a 6-digit integer.");
+                    JOptionPane.showMessageDialog(null, "The PID must be a 6-digit integer.");
+                    return;
+                }
+                */
+
+                //Checking to see if the height is a valid number
+                try {
+                    if(Integer.parseInt(heightField.getText()) <= 0 || Integer.parseInt(heightField.getText()) > 999) {
+                        System.out.println("The height must be a valid number between 0 and 999.");
+                        JOptionPane.showMessageDialog(null, "The height must be a valid number between 0 and 999.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The height must be a valid number between 0 and 999.");
+                    JOptionPane.showMessageDialog(null, "The height must be a valid number between 0 and 999.");
+                    return;
+                }
+
+                //Checking to see if the weight is a valid number
+                try {
+                    if(Integer.parseInt(weightField.getText()) <= 0 || Integer.parseInt(weightField.getText()) > 9999) {
+                        System.out.println("The weight must be a valid number between 0 and 9999.");
+                        JOptionPane.showMessageDialog(null, "The weight must be a valid number between 0 and 9999.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The weight must be a valid number between 0 and 9999.");
+                    JOptionPane.showMessageDialog(null, "The weight must be a valid number between 0 and 9999.");
+                    return;
+                }
+
+                try {
+                    if(Integer.parseInt(BPMField.getText()) <= 0 || Integer.parseInt(BPMField.getText()) > 999) {
+                        System.out.println("The BPM must be a valid number between 0 and 999.");
+                        JOptionPane.showMessageDialog(null, "The BPM must be a valid number between 0 and 999.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The BPM must be a valid number between 0 and 999.");
+                    JOptionPane.showMessageDialog(null, "The BPM must be a valid number between 0 and 999.");
+                    return;
+                }
+
 
                 Patient newPatient = new Patient(nameField.getText(), DOBField.getText(),
                     sexField.getSelectedItem().toString(), notesField.getText());
@@ -322,7 +382,7 @@ public class AddPatientPanel extends JPanel {
         add(temperatureField, gc);
 
         JTextField BPField = new JTextField(15);
-        TextPrompt BPPrompt = new TextPrompt("BP", BPField);
+        TextPrompt BPPrompt = new TextPrompt("BP ###/##", BPField);
         BPField.setText(vitals.getBP());
         BPPrompt.setForeground(Color.GRAY);
         BPField.add(BPPrompt);

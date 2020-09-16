@@ -22,7 +22,8 @@ public class Patient {
     public Patient(String name, String DOB, String sex, String notes) {
         this.name = name;
         this.DOB = DOB;
-        this.age = calculateAge();
+        changeDOBFormat();
+        calculateAge();
         this.sex = sex;
         this.PID = 0;
         this.notes = notes;
@@ -31,7 +32,8 @@ public class Patient {
     public Patient(String name, String DOB, String sex, int PID, String notes) {
         this.name = name;
         this.DOB = DOB;
-        this.age = calculateAge();
+        changeDOBFormat();
+        calculateAge();
         this.sex = sex;
         this.PID = PID;
         this.notes = notes;
@@ -41,12 +43,13 @@ public class Patient {
         this.name = name;
         this.age = age;
         this.DOB = DOB;
+        changeDOBFormat();
         this.sex = sex;
         this.PID = PID;
         this.notes = notes;
     }
 
-    private int calculateAge() {
+    private void calculateAge() {
 
         //Getting the year, month, and day of the DOB with format MM/dd/yyyy
         int year = Integer.valueOf(this.DOB.substring(6)).intValue();
@@ -54,7 +57,17 @@ public class Patient {
         int day = Integer.valueOf(this.DOB.substring(3, 5)).intValue();
         
         LocalDate DOB = LocalDate.of(year, month, day);
-        return Period.between(DOB, LocalDate.now()).getYears();
+        this.age = Period.between(DOB, LocalDate.now()).getYears();
+    }
+
+    private void changeDOBFormat() {
+        if (this.DOB != null && this.DOB.contains("-")) {
+            String year = this.DOB.substring(0, 4);
+            String month = this.DOB.substring(5, 7);
+            String day = this.DOB.substring(8, 10);
+
+            this.DOB = month + "/" + day + "/" + year;
+        }
     }
 
     public String getName() {

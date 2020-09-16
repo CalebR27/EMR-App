@@ -47,7 +47,7 @@ public class AddPatientFrame extends JFrame {
                         e.printStackTrace();
                     }
 
-                    int PID = Database.post("Patients", update);
+                    int PID = Integer.valueOf(Database.post("Patients", update)).intValue();
                     System.out.println("Just added a new user with PID " + PID);
                     newPatient.setPID(PID);
 

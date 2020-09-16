@@ -77,9 +77,10 @@ public class Database {
         }
     }
 
-    // Insert data into a table. Please ensure that all strings are surrounded by single quotes
+    // Insert data into a table. Please ensure that all strings are surrounded by
+    // single quotes
     // This method returns the PID of the newly added patient
-    public static int post(String tablename, ArrayList<String> array) {
+    public static String post(String tablename, ArrayList<String> array) {
 
         String values = array.toString();
         values = values.replace("[", "").replace("]", "");
@@ -96,13 +97,10 @@ public class Database {
             lock.writeLock().unlock();
 
             lock.readLock().lock();
-            Connection new_conn = getConnection();
-            PreparedStatement get = new_conn.prepareStatement("SELECT MAX(pid) FROM Patients");
-            ResultSet result = get.executeQuery();
-            ArrayList<ArrayList<String>> results = getResults(result);
-            new_conn.close();
+            String latest = getLatest(tablename);
             lock.readLock().unlock();
-            return Integer.valueOf(results.get(0).get(0)).intValue();
+
+            return latest;
 
         } catch (Exception e) {
 
@@ -115,7 +113,30 @@ public class Database {
 
         }
 
-        return 0;
+        return "";
+    }
+
+    public static String getLatest(String tablename) {
+        try {
+            Connection new_conn = getConnection();
+            PreparedStatement get = null;
+            if (tablename.equals("Patients")) {
+                get = new_conn.prepareStatement("SELECT MAX(pid) FROM " + tablename);
+            } else if (tablename.equals("Medication")) {
+                get = new_conn.prepareStatement("SELECT MAX(mid) FROM " + tablename);
+            } else if (tablename.equals("Vitals")) {
+                return "";
+            }
+            ResultSet result = get.executeQuery();
+            ArrayList<ArrayList<String>> results = getResults(result);
+            new_conn.close();
+            return results.get(0).get(0);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return "";
     }
 
     // Adds a column to a table

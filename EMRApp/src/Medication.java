@@ -15,13 +15,49 @@ public class Medication {
         this.MID = null;
     }
 
+    public Medication(String name, String frequency, int PID, String route, String time) {
+        this.name = name;
+        this.frequency = frequency;
+        this.PID = PID;
+        this.route = route;
+        this.time = time;
+        changeTimeFormat();
+        createMID();
+    }
+
     public Medication(String name, String frequency, int PID, String route, String time, String MID) {
         this.name = name;
         this.frequency = frequency;
         this.PID = PID;
         this.route = route;
         this.time = time;
+        changeTimeFormat();
         this.MID = MID;
+    }
+
+    private void createMID() {
+        String fullMID = Database.getLatest("Medication");
+
+        if(fullMID == null) {
+            fullMID = "M10000";
+        } else {
+            int MID = Integer.valueOf(fullMID.substring(1)).intValue();
+            MID++;
+            fullMID = "M" + String.valueOf(MID);
+        }
+        this.MID = fullMID;
+    }
+
+    private void changeTimeFormat() {
+        if (this.time != null && this.time.contains("-")) {
+            String year = this.time.substring(0, 4);
+            String month = this.time.substring(5, 7);
+            String day = this.time.substring(8, 10);
+            String hour = this.time.substring(11, 13);
+            String minute = this.time.substring(14, 16);
+
+            this.time = month + "/" + day + "/" + year + " " + hour + ":" + minute;
+        }
     }
 
     public String getName() {
