@@ -132,12 +132,19 @@ public class MedicationPanel extends JPanel {
         // Add a listener for when a certain medication is selected
         medicationTable.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                editMedicationButton.setEnabled(true);
-                deleteMedicationButton.setEnabled(true);
-
                 Point point = e.getPoint();
                 int index = medicationTable.rowAtPoint(point);
+
+                if (index >= medications.size() || index < 0) {
+                    medicationTable.clearSelection();
+                    editMedicationButton.setEnabled(false);
+                    deleteMedicationButton.setEnabled(false);
+                    return;
+                }
+
                 Medication value = medications.get(index);
+                editMedicationButton.setEnabled(true);
+                deleteMedicationButton.setEnabled(true);
                 medicationToEdit = value;
                 fireMedicationTableEvent(new MedicationEvent(this, value));
             }

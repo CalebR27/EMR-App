@@ -2,7 +2,7 @@ public class Vitals {
     private int height;
     private int weight;
     private int BPM;
-    private int temperature;
+    private float temperature;
     private int PID;
     private String BP;
     private String position;
@@ -17,7 +17,7 @@ public class Vitals {
         this.position = null;
     }
 
-    public Vitals (int height, int weight, int BPM, int temperature, int PID, String BP, String position) {
+    public Vitals (int height, int weight, int BPM, float temperature, int PID, String BP, String position) {
         this.height = height;
         this.weight = weight;
         this.BPM = BPM;
@@ -27,7 +27,7 @@ public class Vitals {
         this.position = position;
     }
 
-    public Vitals (int height, int weight, int BPM, int temperature, String BP, String position) {
+    public Vitals (int height, int weight, int BPM, float temperature, String BP, String position) {
         this.height = height;
         this.weight = weight;
         this.BPM = BPM;
@@ -49,7 +49,7 @@ public class Vitals {
         return this.BPM;
     }
 
-    public int getTemperature() {
+    public float getTemperature() {
         return this.temperature;
     }
 
@@ -77,7 +77,7 @@ public class Vitals {
         this.BPM = BPM;
     }
 
-    public void setTemperature(int temperature) {
+    public void setTemperature(float temperature) {
         this.temperature = temperature;
     }
 

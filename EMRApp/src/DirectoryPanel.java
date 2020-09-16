@@ -45,7 +45,7 @@ public class DirectoryPanel extends JPanel {
             //Adding results into an array of Vitals
             for (ArrayList<String> row : results) {
                 vitals.add(new Vitals(Integer.valueOf(row.get(0)).intValue(), Integer.valueOf(row.get(1)).intValue(),
-                    Integer.valueOf(row.get(2)).intValue(), Integer.valueOf(row.get(3)).intValue(), 
+                    Integer.valueOf(row.get(2)).intValue(), Float.valueOf(row.get(3)).floatValue(), 
                     Integer.valueOf(row.get(4)).intValue(), row.get(5), row.get(6)));
             }
         } catch (Exception e) {
@@ -108,11 +108,20 @@ public class DirectoryPanel extends JPanel {
         // Add a listener for when a certain patient is selected
         patientTable.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                editPatientButton.setEnabled(true);
-                deletePatientButton.setEnabled(true);
                 Point point = e.getPoint();
                 int index = patientTable.rowAtPoint(point);
+
+                if (index >= patients.size() || index < 0) {
+                    patientTable.clearSelection();
+                    editPatientButton.setEnabled(false);
+                    deletePatientButton.setEnabled(false);
+                    return;
+                }
+
                 Patient value1 = patients.get(index);
+
+                editPatientButton.setEnabled(true);
+                deletePatientButton.setEnabled(true);
 
                 //This patient will be edited if "Edit Patient" button is clicked, or deleted if "Delete Patient" button is clicked
                 patientToEdit = value1;

@@ -91,15 +91,22 @@ public class AddMedicationPanel extends JPanel {
                         return; 
                 }
 
-
-
-                Medication newMedication = new Medication(nameField.getText(), frequencyField.getText(),
-                    Integer.valueOf(PIDField.getText()).intValue(), routeField.getText(), timeField.getText());
+                try {
+                    if(Integer.parseInt(PIDField.getText()) < 100000 || Integer.parseInt(PIDField.getText()) > 999999) {
+                        System.out.println("The PID must be a valid 6-digit number.");
+                        JOptionPane.showMessageDialog(null, "The PID must be a valid 6-digit number.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The PID must be a valid 6-digit number.");
+                    JOptionPane.showMessageDialog(null, "The PID must be a valid 6-digit number.");
+                    return;
+                }
 
                 //Checking to see if the user entered a valid date & time
                 String java_pattern = "MM/dd/yyyy HH:mm";
                 SimpleDateFormat sdf = new SimpleDateFormat(java_pattern);
-                String med_Time = newMedication.getTime();
+                String med_Time = timeField.getText();
                 Date time = null;
                 try {
                     time = sdf.parse(med_Time);
@@ -111,11 +118,13 @@ public class AddMedicationPanel extends JPanel {
                     e1.printStackTrace();
                 }
                 if(time == null) {
-                    newMedication = null;
                     System.out.println("The Time is not in the correct format.");
                     JOptionPane.showMessageDialog(null, "The Time is not in the correct format.");
                     return;
                 }
+
+                Medication newMedication = new Medication(nameField.getText(), frequencyField.getText(),
+                    Integer.valueOf(PIDField.getText()).intValue(), routeField.getText(), timeField.getText());
 
                 ArrayList<Medication> medications = new ArrayList<Medication>();
                 medications.add(newMedication);

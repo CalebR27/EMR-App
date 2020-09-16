@@ -74,7 +74,7 @@ public class MainFrame extends JFrame {
                 medications = event.getMedications();
                 patient = event.getPatient();
 
-                System.out.println("Selected patient is: " + patient.getName());
+                System.out.println("Selected patient is: "+ patient.getName());
 
                 for(Medication m : medications) {
                     System.out.println("Sending this med to table: " + m.getName());

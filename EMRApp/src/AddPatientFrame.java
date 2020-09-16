@@ -57,7 +57,7 @@ public class AddPatientFrame extends JFrame {
                     update.add(Integer.toString(newVitals.getHeight()));
                     update.add(Integer.toString(newVitals.getWeight()));
                     update.add(Integer.toString(newVitals.getBPM()));
-                    update.add(Integer.toString(newVitals.getTemperature()));
+                    update.add(Double.toString(newVitals.getTemperature()));
                     update.add(Integer.toString(newVitals.getPID()));
                     update.add("'" + newVitals.getBP() + "'");
                     update.add("'" + newVitals.getPosition() + "'");
@@ -109,7 +109,7 @@ public class AddPatientFrame extends JFrame {
                     String height = Integer.toString(newVitals.getHeight());
                     String weight = Integer.toString(newVitals.getWeight());
                     String BPM = Integer.toString(newVitals.getBPM());
-                    String temperature = Integer.toString(newVitals.getTemperature());
+                    String temperature = Double.toString(newVitals.getTemperature());
                     String vitalsPID = Integer.toString(newVitals.getPID());
                     String BP = "'" + newVitals.getBP() + "'";
                     String position = "'" + newVitals.getPosition() + "'";

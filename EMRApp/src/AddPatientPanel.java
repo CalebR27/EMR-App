@@ -100,7 +100,7 @@ public class AddPatientPanel extends JPanel {
         add(notesField, gc);
 
         JTextField temperatureField = new JTextField(15);
-        TextPrompt temperaturePrompt = new TextPrompt("Temperature", temperatureField);
+        TextPrompt temperaturePrompt = new TextPrompt("Temperature (F)", temperatureField);
         temperaturePrompt.setForeground(Color.GRAY);
         temperatureField.add(temperaturePrompt);
         gc.gridx = 1;
@@ -198,7 +198,7 @@ public class AddPatientPanel extends JPanel {
                 }
 
                 try {
-                    if(Integer.parseInt(BPMField.getText()) <= 0 || Integer.parseInt(BPMField.getText()) > 999) {
+                    if(Integer.parseInt(BPMField.getText()) < 0 || Integer.parseInt(BPMField.getText()) > 999) {
                         System.out.println("The BPM must be a valid number between 0 and 999.");
                         JOptionPane.showMessageDialog(null, "The BPM must be a valid number between 0 and 999.");
                         return;
@@ -209,14 +209,36 @@ public class AddPatientPanel extends JPanel {
                     return;
                 }
 
+                try {
+                    if(Float.parseFloat(temperatureField.getText()) <= 0 || Float.parseFloat(temperatureField.getText()) > 999) {
+                        System.out.println("The temperature must be a valid number between 0 and 999.");
+                        JOptionPane.showMessageDialog(null, "The temperature must be a valid number between 0 and 999.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The temperature must be a valid number between 0 and 999.");
+                    JOptionPane.showMessageDialog(null, "The temperature must be a valid number between 0 and 999.");
+                    return;
+                }
 
-                Patient newPatient = new Patient(nameField.getText(), DOBField.getText(),
-                    sexField.getSelectedItem().toString(), notesField.getText());
-
+                try {
+                    String[] bloodPressure = BPField.getText().split("/");
+                    if(bloodPressure.length != 2 || Integer.parseInt(bloodPressure[0]) < 0 
+                        || Integer.parseInt(bloodPressure[0]) > 999 || Integer.parseInt(bloodPressure[1]) < 0
+                        || Integer.parseInt(bloodPressure[1]) > 999) {
+                        System.out.println("The blood pressure must be in the format ###/## with valid numbers.");
+                        JOptionPane.showMessageDialog(null, "The blood pressure must be in the format ###/## with valid numbers.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The blood pressure must be in the format ###/## with valid numbers.");
+                    JOptionPane.showMessageDialog(null, "The blood pressure must be in the format ###/## with valid numbers.");
+                    return;
+                }
 
                 // Check to see if the DOB is in the mm/dd/yyyy format
                 String java_pattern = "MM/dd/yyyy";
-                String patient_DOB = newPatient.getDOB();
+                String patient_DOB = DOBField.getText();
                 SimpleDateFormat sdf = new SimpleDateFormat(java_pattern);
                 Date DOB = null;
                 try {
@@ -229,16 +251,21 @@ public class AddPatientPanel extends JPanel {
                     e2.printStackTrace();
                 }
                 if (DOB == null) {
-                    newPatient = null;
                     System.out.println("DOB is not in the correct format");
                     JOptionPane.showMessageDialog(null, "The DOB is not in the correct format.");
                     return;
                 }
 
+                //Adjust the format of the temperature
+                String tempFormat = String.format("%.1f", Float.valueOf(temperatureField.getText()).floatValue());
+
+                Patient newPatient = new Patient(nameField.getText(), DOBField.getText(),
+                sexField.getSelectedItem().toString(), notesField.getText());
+
                 Vitals newVitals = new Vitals(Integer.valueOf(heightField.getText()).intValue(),
                         Integer.valueOf(weightField.getText()).intValue(),
                         Integer.valueOf(BPMField.getText()).intValue(),
-                        Integer.valueOf(temperatureField.getText()).intValue(),
+                        Float.valueOf(tempFormat).floatValue(),
                         BPField.getText(), positionField.getText());
 
                 fireDirectoryButtonEvent(new DirectoryEvent(this, newPatient, newVitals));
@@ -373,8 +400,8 @@ public class AddPatientPanel extends JPanel {
         add(notesField, gc);
 
         JTextField temperatureField = new JTextField(15);
-        TextPrompt temperaturePrompt = new TextPrompt("Temperature", temperatureField);
-        temperatureField.setText(Integer.toString(vitals.getTemperature()));
+        TextPrompt temperaturePrompt = new TextPrompt("Temperature (F)", temperatureField);
+        temperatureField.setText(Float.toString(vitals.getTemperature()));
         temperaturePrompt.setForeground(Color.GRAY);
         temperatureField.add(temperaturePrompt);
         gc.gridx = 1;
@@ -428,14 +455,75 @@ public class AddPatientPanel extends JPanel {
                     return;
                 }
 
-                Patient newPatient = new Patient(nameField.getText(), DOBField.getText(),
-                        sexField.getSelectedItem().toString(), Integer.valueOf(PIDField.getText()).intValue(),
-                        notesField.getText());
+                //Checking to see if the height is a valid number
+                try {
+                    if(Integer.parseInt(heightField.getText()) <= 0 || Integer.parseInt(heightField.getText()) > 999) {
+                        System.out.println("The height must be a valid number between 0 and 999.");
+                        JOptionPane.showMessageDialog(null, "The height must be a valid number between 0 and 999.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The height must be a valid number between 0 and 999.");
+                    JOptionPane.showMessageDialog(null, "The height must be a valid number between 0 and 999.");
+                    return;
+                }
+
+                //Checking to see if the weight is a valid number
+                try {
+                    if(Integer.parseInt(weightField.getText()) <= 0 || Integer.parseInt(weightField.getText()) > 9999) {
+                        System.out.println("The weight must be a valid number between 0 and 9999.");
+                        JOptionPane.showMessageDialog(null, "The weight must be a valid number between 0 and 9999.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The weight must be a valid number between 0 and 9999.");
+                    JOptionPane.showMessageDialog(null, "The weight must be a valid number between 0 and 9999.");
+                    return;
+                }
+
+                try {
+                    if(Integer.parseInt(BPMField.getText()) < 0 || Integer.parseInt(BPMField.getText()) > 999) {
+                        System.out.println("The BPM must be a valid number between 0 and 999.");
+                        JOptionPane.showMessageDialog(null, "The BPM must be a valid number between 0 and 999.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The BPM must be a valid number between 0 and 999.");
+                    JOptionPane.showMessageDialog(null, "The BPM must be a valid number between 0 and 999.");
+                    return;
+                }
+
+                try {
+                    if(Float.parseFloat(temperatureField.getText()) <= 0 || Float.parseFloat(temperatureField.getText()) > 999) {
+                        System.out.println("The temperature must be a valid number between 0 and 999.");
+                        JOptionPane.showMessageDialog(null, "The temperature must be a valid number between 0 and 999.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The temperature must be a valid number between 0 and 999.");
+                    JOptionPane.showMessageDialog(null, "The temperature must be a valid number between 0 and 999.");
+                    return;
+                }
+
+                try {
+                    String[] bloodPressure = BPField.getText().split("/");
+                    if(bloodPressure.length != 2 || Integer.parseInt(bloodPressure[0]) < 0 
+                        || Integer.parseInt(bloodPressure[0]) > 999 || Integer.parseInt(bloodPressure[1]) < 0
+                        || Integer.parseInt(bloodPressure[1]) > 999) {
+                        System.out.println("The blood pressure must be in the format ###/## with valid numbers.");
+                        JOptionPane.showMessageDialog(null, "The blood pressure must be in the format ###/## with valid numbers.");
+                        return;
+                    }
+                } catch (NumberFormatException error) { 
+                    System.out.println("The blood pressure must be in the format ###/## with valid numbers.");
+                    JOptionPane.showMessageDialog(null, "The blood pressure must be in the format ###/## with valid numbers.");
+                    return;
+                }
 
                 // Check to see if the DOB is in the mm/dd/yyyy format
                 String java_pattern = "MM/dd/yyyy";
                 SimpleDateFormat sdf = new SimpleDateFormat(java_pattern);
-                String patient_DOB = newPatient.getDOB();
+                String patient_DOB = DOBField.getText();
                 Date DOB = null;
                 try {
                     DOB = sdf.parse(patient_DOB);
@@ -447,16 +535,22 @@ public class AddPatientPanel extends JPanel {
                     e1.printStackTrace();
                 }
                 if (DOB == null) {
-                    newPatient = null;
                     System.out.println("DOB is not in the correct format");
                     JOptionPane.showMessageDialog(null, "The DOB is not in the correct format.");
                     return;
                 }
 
+                //Adjust the format of the temperature
+                String tempFormat = String.format("%.1f", Float.valueOf(temperatureField.getText()).floatValue());
+
+                Patient newPatient = new Patient(nameField.getText(), DOBField.getText(),
+                sexField.getSelectedItem().toString(), Integer.valueOf(PIDField.getText()).intValue(),
+                notesField.getText());
+
                 Vitals newVitals = new Vitals(Integer.valueOf(heightField.getText()).intValue(),
                         Integer.valueOf(weightField.getText()).intValue(),
                         Integer.valueOf(BPMField.getText()).intValue(),
-                        Integer.valueOf(temperatureField.getText()).intValue(),
+                        Float.valueOf(tempFormat).floatValue(),
                         Integer.valueOf(PIDField.getText()).intValue(), BPField.getText(), positionField.getText());
                 fireDirectoryButtonEvent(new DirectoryEvent(this, newPatient, newVitals));
             }
