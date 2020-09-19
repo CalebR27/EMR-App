@@ -52,15 +52,15 @@ public class MainFrame extends JFrame {
                     frame.setVisible(true);
                 } else {
                     if(current_patient == null && current_vitals == null){
-                        addPatientFrame = new AddPatientFrame("Add Patient");
+                        addPatientFrame = new AddPatientFrame("Add Patient", thisFrame);
                     } else if (action.equals("edit")) {
-                        addPatientFrame = new AddPatientFrame("Add Patient", current_patient, current_vitals);
+                        addPatientFrame = new AddPatientFrame("Add Patient", current_patient, current_vitals, thisFrame);
                     }
 
                     addPatientFrame.setSize(500, 500);
-                    addPatientFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    addPatientFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     
-                    thisFrame.setVisible(false);
+                    //thisFrame.setVisible(false);
                     addPatientFrame.setVisible(true);
                 }
             }
@@ -110,17 +110,17 @@ public class MainFrame extends JFrame {
 
                 } else {
                     if (current_medication == null && action == null && patient == null) {
-                        addMedicationFrame = new AddMedicationFrame("Add Medication", 0);
+                        addMedicationFrame = new AddMedicationFrame("Add Medication", 0, thisFrame);
                     } else if (current_medication == null && action == null && patient != null){
-                        addMedicationFrame = new AddMedicationFrame("Add Medication", patient.getPID());
+                        addMedicationFrame = new AddMedicationFrame("Add Medication", patient.getPID(), thisFrame);
                     }else if (current_medication != null && action.equals("edit")) {
-                        addMedicationFrame = new AddMedicationFrame("Add Medication", current_medication);
+                        addMedicationFrame = new AddMedicationFrame("Add Medication", current_medication, thisFrame);
                     }
                 
                     addMedicationFrame.setSize(500, 500);
-                    addMedicationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    addMedicationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                    thisFrame.setVisible(false);
+                    //thisFrame.setVisible(false);
                     addMedicationFrame.setVisible(true);
                 }
             }

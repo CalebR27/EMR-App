@@ -9,13 +9,14 @@ public class AddMedicationFrame extends JFrame {
 
     private AddMedicationPanel addMedicationPanel;
 
-    public AddMedicationFrame (String title, int PID) {
+    public AddMedicationFrame (String title, int PID, MainFrame frame) {
         super(title);
 
         setLayout(new BorderLayout());
         Container container = getContentPane();
 
         //Initializing panel
+        this.mainFrame = frame;
         this.addMedicationPanel = new AddMedicationPanel(PID);
 
         //Adding event to switch frames back to the Main Frame, and add the medication(s) to the database
@@ -54,26 +55,28 @@ public class AddMedicationFrame extends JFrame {
                         update.add("'" + m.getMID() + "'");
                         Database.post("Medication", update);
                     }
+                    mainFrame.dispose();
+                    mainFrame = new MainFrame("EHR");
+                    mainFrame.setSize(1000,500);
+                    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    thisFrame.setVisible(false);
+                    mainFrame.setVisible(true);
                 }     
-
-                mainFrame = new MainFrame("EHR");
-                mainFrame.setSize(1000,500);
-                mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                thisFrame.setVisible(false);
-                mainFrame.setVisible(true);
+                thisFrame.dispose();
             }            
         });
 
         container.add(addMedicationPanel, BorderLayout.CENTER);
     }
     
-    public AddMedicationFrame (String title, Medication medication) {
+    public AddMedicationFrame (String title, Medication medication, MainFrame frame) {
         super(title);
 
         setLayout(new BorderLayout());
         Container container = getContentPane();
 
         //Initializing panel
+        this.mainFrame = frame;
         this.addMedicationPanel = new AddMedicationPanel(medication);
 
         //Adding event to switch frames back to the Main Frame, and add the medication(s) to the database
@@ -96,13 +99,15 @@ public class AddMedicationFrame extends JFrame {
                         Database.updateTable("Medication", "route", route, MID);
                         Database.updateTable("Medication", "time", time, MID);
                     }
+                    mainFrame.dispose();
+                    mainFrame = new MainFrame("EHR");
+                    mainFrame.setSize(1000,500);
+                    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    thisFrame.setVisible(false);
+                    mainFrame.setVisible(true);
                 }
 
-                mainFrame = new MainFrame("EHR");
-                mainFrame.setSize(1000,500);
-                mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                thisFrame.setVisible(false);
-                mainFrame.setVisible(true);
+                thisFrame.dispose();
             }            
         });
 

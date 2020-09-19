@@ -21,14 +21,22 @@ public class AddPatientPanel extends JPanel {
         GridBagConstraints gc = new GridBagConstraints();
 
         // Adding fields to add patient info and vitals
+        JLabel name = new JLabel("Name");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 0;
+        add(name,gc);
+
         JTextField nameField = new JTextField(15);
-        TextPrompt namePrompt = new TextPrompt("Name", nameField);
+        TextPrompt namePrompt = new TextPrompt("Ex: John Doe", nameField);
         namePrompt.setForeground(Color.GRAY);
         nameField.add(namePrompt);
+        gc.anchor = GridBagConstraints.NORTH;
         gc.weightx = 1;
         gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 0;
+        gc.gridy = 1;
         add(nameField, gc);
 
         /*
@@ -47,37 +55,80 @@ public class AddPatientPanel extends JPanel {
         add(PIDField, gc);
         */
 
-        JTextField DOBField = new JTextField(15);
-        TextPrompt DOBPrompt = new TextPrompt("Date of Birth mm/dd/yyyy", DOBField);
-        DOBPrompt.setForeground(Color.GRAY);
-        DOBField.add(DOBPrompt);
-        gc.gridx = 0;
-        gc.gridy = 1;
-        add(DOBField, gc);
-
-        JTextField heightField = new JTextField(15);
-        TextPrompt heightPrompt = new TextPrompt("Height (cm)", heightField);
-        heightPrompt.setForeground(Color.GRAY);
-        heightField.add(heightPrompt);
+        JLabel DOB = new JLabel("Date of Birth");
+        gc.weightx = 0;
+        gc.weighty = 0;
         gc.gridx = 0;
         gc.gridy = 2;
-        add(heightField, gc);
+        add(DOB, gc);
 
-        JTextField weightField = new JTextField(15);
-        TextPrompt weightPrompt = new TextPrompt("Weight (lbs)", weightField);
-        weightPrompt.setForeground(Color.GRAY);
-        weightField.add(weightPrompt);
+        JTextField DOBField = new JTextField(15);
+        TextPrompt DOBPrompt = new TextPrompt("Format: mm/dd/yyyy", DOBField);
+        DOBPrompt.setForeground(Color.GRAY);
+        DOBField.add(DOBPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
         gc.gridy = 3;
-        add(weightField, gc);
+        add(DOBField, gc);
 
-        JTextField BPMField = new JTextField(15);
-        TextPrompt BPMPrompt = new TextPrompt("BPM", BPMField);
-        BPMPrompt.setForeground(Color.GRAY);
-        BPMField.add(BPMPrompt);
+        JLabel height = new JLabel("Height (cm)");
+        gc.weightx = 0;
+        gc.weighty = 0;
         gc.gridx = 0;
         gc.gridy = 4;
+        add(height, gc);
+
+        JTextField heightField = new JTextField(15);
+        TextPrompt heightPrompt = new TextPrompt("Ex: 155", heightField);
+        heightPrompt.setForeground(Color.GRAY);
+        heightField.add(heightPrompt);
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 5;
+        add(heightField, gc);
+
+        JLabel weight = new JLabel("Weight (lbs)");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 6;
+        add(weight, gc);
+
+        JTextField weightField = new JTextField(15);
+        TextPrompt weightPrompt = new TextPrompt("Ex: 165", weightField);
+        weightPrompt.setForeground(Color.GRAY);
+        weightField.add(weightPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.gridx = 0;
+        gc.gridy = 7;
+        add(weightField, gc);
+
+        JLabel BPM = new JLabel("BPM");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 8;
+        add(BPM, gc);
+
+        JTextField BPMField = new JTextField(15);
+        TextPrompt BPMPrompt = new TextPrompt("Ex: 85", BPMField);
+        BPMPrompt.setForeground(Color.GRAY);
+        BPMField.add(BPMPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.gridx = 0;
+        gc.gridy = 9;
         add(BPMField, gc);
+
+        JLabel sex = new JLabel("Sex");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 0;
+        add(sex, gc);
 
         String sexOptions[] = { "Male", "Female", "Other" };
         JComboBox<String> sexField = new JComboBox<String>(sexOptions);
@@ -87,40 +138,76 @@ public class AddPatientPanel extends JPanel {
         sexField.setSize(sexField.getPreferredSize());
         Font font = new Font("Dialog", Font.PLAIN, 12);
         sexField.setFont(font);
-        gc.gridx = 1;
-        gc.gridy = 0;
-        add(sexField, gc);
-
-        JTextField notesField = new JTextField(15);
-        TextPrompt notesPrompt = new TextPrompt("Notes", notesField);
-        notesPrompt.setForeground(Color.GRAY);
-        notesField.add(notesPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
         gc.gridy = 1;
-        add(notesField, gc);
+        add(sexField, gc);
 
-        JTextField temperatureField = new JTextField(15);
-        TextPrompt temperaturePrompt = new TextPrompt("Temperature (F)", temperatureField);
-        temperaturePrompt.setForeground(Color.GRAY);
-        temperatureField.add(temperaturePrompt);
+        JLabel notes = new JLabel("Notes");
+        gc.weightx = 0;
+        gc.weighty = 0;
         gc.gridx = 1;
         gc.gridy = 2;
-        add(temperatureField, gc);
+        add(notes, gc);
 
-        JTextField BPField = new JTextField(15);
-        TextPrompt BPPrompt = new TextPrompt("BP ###/##", BPField);
-        BPPrompt.setForeground(Color.GRAY);
-        BPField.add(BPPrompt);
+        JTextField notesField = new JTextField(15);
+        TextPrompt notesPrompt = new TextPrompt("Notes...", notesField);
+        notesPrompt.setForeground(Color.GRAY);
+        notesField.add(notesPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
         gc.gridy = 3;
+        add(notesField, gc);
+
+        JLabel temperature = new JLabel("Temperature (F)");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 4;
+        add(temperature, gc);
+
+        JTextField temperatureField = new JTextField(15);
+        TextPrompt temperaturePrompt = new TextPrompt("Ex: 98.2", temperatureField);
+        temperaturePrompt.setForeground(Color.GRAY);
+        temperatureField.add(temperaturePrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.gridx = 1;
+        gc.gridy = 5;
+        add(temperatureField, gc);
+
+        JLabel BP = new JLabel("Blood Pressure");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 6;
+        add(BP, gc);
+
+        JTextField BPField = new JTextField(15);
+        TextPrompt BPPrompt = new TextPrompt("Ex: 120/75", BPField);
+        BPPrompt.setForeground(Color.GRAY);
+        BPField.add(BPPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.gridx = 1;
+        gc.gridy = 7;
         add(BPField, gc);
 
+        JLabel position = new JLabel("Position");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 8;
+        add(position, gc);
+
         JTextField positionField = new JTextField(15);
-        TextPrompt positionPrompt = new TextPrompt("Position", positionField);
+        TextPrompt positionPrompt = new TextPrompt("Ex: Sitting up", positionField);
         positionPrompt.setForeground(Color.GRAY);
         positionField.add(positionPrompt);
         gc.gridx = 1;
-        gc.gridy = 4;
+        gc.gridy = 9;
         add(positionField, gc);
 
         // Create Add New Patient Button
@@ -278,7 +365,7 @@ public class AddPatientPanel extends JPanel {
         gc.weightx = 1;
         gc.weighty = 0;
         gc.gridx = 0;
-        gc.gridy = 6;
+        gc.gridy = 10;
         add(finishButton, gc);
 
         // Create Cancel Button
@@ -296,7 +383,7 @@ public class AddPatientPanel extends JPanel {
         gc.weightx = 1;
         gc.weighty = 0;
         gc.gridx = 1;
-        gc.gridy = 6;
+        gc.gridy = 10;
         add(cancelButton, gc);
     }
 
@@ -306,31 +393,48 @@ public class AddPatientPanel extends JPanel {
         size.width = 400;
         setPreferredSize(size);
 
-        setBorder(BorderFactory.createTitledBorder("Add New Patient"));
+        setBorder(BorderFactory.createTitledBorder("Edit Patient"));
 
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
         // Adding fields to add patient info and vitals
+        JLabel name = new JLabel("Name");
+        gc.anchor = GridBagConstraints.NORTH;
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 0;
+        add(name,gc);
+
         JTextField nameField = new JTextField(15);
-        TextPrompt namePrompt = new TextPrompt("Name", nameField);
+        TextPrompt namePrompt = new TextPrompt("Ex: John Doe", nameField);
         nameField.setText(patient.getName());
         namePrompt.setForeground(Color.GRAY);
         nameField.add(namePrompt);
         gc.weightx = 1;
         gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 0;
+        gc.gridy = 1;
         add(nameField, gc);
 
+        JLabel PID = new JLabel("PID");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 2;
+        add(PID,gc);
+
         JTextField PIDField = new JTextField(15);
-        TextPrompt PIDPrompt = new TextPrompt("PID ######", PIDField);
+        TextPrompt PIDPrompt = new TextPrompt("Ex: 123456", PIDField);
         PIDField.setEditable(false);
         PIDField.setText(Integer.toString(patient.getPID()));
         PIDPrompt.setForeground(Color.GRAY);
         PIDField.add(PIDPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 1;
+        gc.gridy = 3;
         PIDField.setEditable(false);
         add(PIDField, gc);
 
@@ -342,41 +446,84 @@ public class AddPatientPanel extends JPanel {
          * gc.gridy = 1; add(ageField, gc);
          */
 
+        JLabel DOB = new JLabel("Date of Birth");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 4;
+        add(DOB, gc);
+
         JTextField DOBField = new JTextField(15);
-        TextPrompt DOBPrompt = new TextPrompt("Date of Birth mm/dd/yyyy", DOBField);
+        TextPrompt DOBPrompt = new TextPrompt("Format: mm/dd/yyyy", DOBField);
         DOBField.setText(patient.getDOB());
         DOBPrompt.setForeground(Color.GRAY);
         DOBField.add(DOBPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 2;
+        gc.gridy = 5;
         add(DOBField, gc);
 
+        JLabel height = new JLabel("Height (cm)");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 6;
+        add(height, gc);
+
         JTextField heightField = new JTextField(15);
-        TextPrompt heightPrompt = new TextPrompt("Height (cm)", heightField);
+        TextPrompt heightPrompt = new TextPrompt("Ex: 155", heightField);
         heightField.setText(Integer.toString(vitals.getHeight()));
         heightPrompt.setForeground(Color.GRAY);
         heightField.add(heightPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 3;
+        gc.gridy = 7;
         add(heightField, gc);
 
+        JLabel weight = new JLabel("Weight (lbs)");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 8;
+        add(weight, gc);
+
         JTextField weightField = new JTextField(15);
-        TextPrompt weightPrompt = new TextPrompt("Weight (lbs)", weightField);
+        TextPrompt weightPrompt = new TextPrompt("Ex: 165", weightField);
         weightField.setText(Integer.toString(vitals.getWeight()));
         weightPrompt.setForeground(Color.GRAY);
         weightField.add(weightPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 4;
+        gc.gridy = 9;
         add(weightField, gc);
 
+        JLabel BPM = new JLabel("BPM");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 10;
+        add(BPM, gc);
+
         JTextField BPMField = new JTextField(15);
-        TextPrompt BPMPrompt = new TextPrompt("BPM", BPMField);
+        TextPrompt BPMPrompt = new TextPrompt("Ex: 85", BPMField);
         BPMField.setText(Integer.toString(vitals.getBPM()));
         BPMPrompt.setForeground(Color.GRAY);
         BPMField.add(BPMPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 5;
+        gc.gridy = 11;
         add(BPMField, gc);
+
+        JLabel sex = new JLabel("Sex");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 0;
+        add(sex, gc);
 
         String sexOptions[] = { "Male", "Female", "Other" };
         JComboBox<String> sexField = new JComboBox<String>(sexOptions);
@@ -386,44 +533,82 @@ public class AddPatientPanel extends JPanel {
         sexField.setSize(sexField.getPreferredSize());
         Font font = new Font("Dialog", Font.PLAIN, 12);
         sexField.setFont(font);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
-        gc.gridy = 0;
+        gc.gridy = 1;
         add(sexField, gc);
 
+        JLabel notes = new JLabel("Notes");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 2;
+        add(notes, gc);
+
         JTextField notesField = new JTextField(15);
-        TextPrompt notesPrompt = new TextPrompt("Notes", notesField);
+        TextPrompt notesPrompt = new TextPrompt("Notes...", notesField);
         notesField.setText(patient.getNotes());
         notesPrompt.setForeground(Color.GRAY);
         notesField.add(notesPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
-        gc.gridy = 1;
+        gc.gridy = 3;
         add(notesField, gc);
 
+        JLabel temperature = new JLabel("Temperature (F)");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 4;
+        add(temperature, gc);
+
         JTextField temperatureField = new JTextField(15);
-        TextPrompt temperaturePrompt = new TextPrompt("Temperature (F)", temperatureField);
+        TextPrompt temperaturePrompt = new TextPrompt("Ex: 98.2", temperatureField);
         temperatureField.setText(Float.toString(vitals.getTemperature()));
         temperaturePrompt.setForeground(Color.GRAY);
         temperatureField.add(temperaturePrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
-        gc.gridy = 2;
+        gc.gridy = 5;
         add(temperatureField, gc);
 
+        JLabel BP = new JLabel("Blood Pressure");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 6;
+        add(BP, gc);
+
         JTextField BPField = new JTextField(15);
-        TextPrompt BPPrompt = new TextPrompt("BP ###/##", BPField);
+        TextPrompt BPPrompt = new TextPrompt("Ex: 120/75", BPField);
         BPField.setText(vitals.getBP());
         BPPrompt.setForeground(Color.GRAY);
         BPField.add(BPPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
-        gc.gridy = 3;
+        gc.gridy = 7;
         add(BPField, gc);
 
+        JLabel position = new JLabel("Position");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 8;
+        add(position, gc);
+
         JTextField positionField = new JTextField(15);
-        TextPrompt positionPrompt = new TextPrompt("Position", positionField);
+        TextPrompt positionPrompt = new TextPrompt("Ex: Sitting up", positionField);
         positionField.setText(vitals.getPosition());
         positionPrompt.setForeground(Color.GRAY);
         positionField.add(positionPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
-        gc.gridy = 4;
+        gc.gridy = 9;
         add(positionField, gc);
 
         // Create Add New Patient Button
@@ -559,10 +744,10 @@ public class AddPatientPanel extends JPanel {
 
         // Add Finish Button
         gc.anchor = GridBagConstraints.LINE_END;
-        gc.weightx = 20;
+        gc.weightx = 1;
         gc.weighty = 0;
         gc.gridx = 0;
-        gc.gridy = 6;
+        gc.gridy = 12;
         add(finishButton, gc);
 
         // Create Cancel Button
@@ -580,7 +765,7 @@ public class AddPatientPanel extends JPanel {
         gc.weightx = 1;
         gc.weighty = 0;
         gc.gridx = 1;
-        gc.gridy = 6;
+        gc.gridy = 12;
         add(cancelButton, gc);
     }
 

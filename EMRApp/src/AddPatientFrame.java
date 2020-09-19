@@ -9,12 +9,13 @@ public class AddPatientFrame extends JFrame {
 
     private AddPatientPanel addPatientPanel;
 
-    public AddPatientFrame(String title) {
+    public AddPatientFrame(String title, MainFrame frame) {
         super(title);
         setLayout(new BorderLayout());
         Container container = getContentPane();
 
         // Initializing panel
+        this.mainFrame = frame;
         this.addPatientPanel = new AddPatientPanel();
 
         // Adding event to switch frames back to the Main Frame, and add the new
@@ -63,25 +64,28 @@ public class AddPatientFrame extends JFrame {
                     update.add("'" + newVitals.getPosition() + "'");
                     Database.post("Vitals", update);
 
+                    mainFrame.dispose();
+                    mainFrame = new MainFrame("EHR");
+                    mainFrame.setSize(1000,500);
+                    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    thisFrame.setVisible(false);
+                    mainFrame.setVisible(true);
                 }
 
-                mainFrame = new MainFrame("EHR");
-                mainFrame.setSize(1000,500);
-                mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                thisFrame.setVisible(false);
-                mainFrame.setVisible(true);
+                thisFrame.dispose();
             }
         });
         
         container.add(addPatientPanel, BorderLayout.CENTER);
     }
 
-    public AddPatientFrame (String title, Patient patient, Vitals vitals) {
+    public AddPatientFrame (String title, Patient patient, Vitals vitals, MainFrame frame) {
         super(title);
         setLayout(new BorderLayout());
         Container container = getContentPane();
 
         //Initializing panel
+        this.mainFrame = frame;
         this.addPatientPanel = new AddPatientPanel(patient, vitals);
 
         // Adding event to switch frames back to the Main Frame, and update the information in the database
@@ -122,13 +126,15 @@ public class AddPatientFrame extends JFrame {
                     Database.updateTable("Vitals", "BP", BP, PID);
                     Database.updateTable("Vitals", "position", position, PID);
 
+                    mainFrame.dispose();
+                    mainFrame = new MainFrame("EHR");
+                    mainFrame.setSize(1000,500);
+                    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    thisFrame.setVisible(false);
+                    mainFrame.setVisible(true);
                 }
 
-                mainFrame = new MainFrame("EHR");
-                mainFrame.setSize(1000,500);
-                mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                thisFrame.setVisible(false);
-                mainFrame.setVisible(true);
+                thisFrame.dispose();
             }
         });
         

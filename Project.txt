@@ -39,6 +39,4 @@ Right: Medication
 What's left for main functionality: Nothing
 
 **********NEXT STEPS AFTER ALL MAIN FUNCTIONALITY IS FINISHED***********
-Automatically calculate age from DOB entered for patient.
-Error checking: clicking an empty spot in the patient directory table, checking for bad inputs when adding new patient/vitals or medication (ex: wrong variable type or empties in any box), not allowed to edit PID in Patients table, not allowed to edit MID in Medications table, can't find Medication of Vitals with specified PID
 Sorting medication by Last Taken date

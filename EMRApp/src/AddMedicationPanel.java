@@ -21,49 +21,96 @@ public class AddMedicationPanel extends JPanel {
         GridBagConstraints gc = new GridBagConstraints();
 
         // Adding fields to add medication info
+        JLabel name = new JLabel("Medication Name");
+        gc.anchor = GridBagConstraints.SOUTH;
+        gc.weightx = 0;
+        gc.weighty = 0.5;
+        gc.gridx = 0;
+        gc.gridy = 0;
+        add(name, gc);
+
         JTextField nameField = new JTextField(20);
-        TextPrompt namePrompt = new TextPrompt("Medication Name", nameField);
+        TextPrompt namePrompt = new TextPrompt("Ex: Omeprazole 100mg", nameField);
         namePrompt.setForeground(Color.GRAY);
         nameField.add(namePrompt);
+        gc.anchor = GridBagConstraints.NORTH;
         gc.weightx = 1;
         gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 0;
+        gc.gridy = 1;
         add(nameField, gc);
 
+        JLabel PIDLabel = new JLabel("PID");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 2;
+        add(PIDLabel, gc);
+
         JTextField PIDField = new JTextField(20);
-        TextPrompt PIDPrompt = new TextPrompt("PID ######", PIDField);
+        TextPrompt PIDPrompt = new TextPrompt("Ex: 123456", PIDField);
         if (PID != 0) {
             PIDField.setText(String.valueOf(PID));
         }
         PIDPrompt.setForeground(Color.GRAY);
         PIDField.add(PIDPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 1;
+        gc.gridy = 3;
         add(PIDField, gc);
 
+        JLabel time = new JLabel("Time Taken");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 4;
+        add(time, gc);
+        
         JTextField timeField = new JTextField(20);
-        TextPrompt timePrompt = new TextPrompt("Time Taken MM/dd/yyyy HH:mm", timeField);
+        TextPrompt timePrompt = new TextPrompt("Format: MM/dd/yyyy HH:mm", timeField);
         timePrompt.setForeground(Color.GRAY);
         timeField.add(timePrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 2;
+        gc.gridy = 5;
         add(timeField, gc);
 
-        JTextField frequencyField = new JTextField(20);
-        TextPrompt frequencyPrompt = new TextPrompt("Frequency", frequencyField);
-        frequencyPrompt.setForeground(Color.GRAY);
-        frequencyField.add(frequencyPrompt);
+        JLabel frequency = new JLabel("Frequency");
+        gc.anchor = GridBagConstraints.SOUTH;
+        gc.weightx = 0;
+        gc.weighty = 0.5;
         gc.gridx = 1;
         gc.gridy = 0;
-        add(frequencyField, gc);
+        add(frequency, gc);
 
-        JTextField routeField = new JTextField(20);
-        TextPrompt routePrompt = new TextPrompt("Route", routeField);
-        routePrompt.setForeground(Color.GRAY);
-        routeField.add(routePrompt);
+        JTextField frequencyField = new JTextField(20);
+        TextPrompt frequencyPrompt = new TextPrompt("Ex: Every 2 hours", frequencyField);
+        frequencyPrompt.setForeground(Color.GRAY);
+        frequencyField.add(frequencyPrompt);
+        gc.anchor = GridBagConstraints.NORTH;
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
         gc.gridy = 1;
+        add(frequencyField, gc);
+
+        JLabel route = new JLabel("Route");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 2;
+        add(route, gc);
+
+        JTextField routeField = new JTextField(20);
+        TextPrompt routePrompt = new TextPrompt("Ex: Oral tablet", routeField);
+        routePrompt.setForeground(Color.GRAY);
+        routeField.add(routePrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.gridx = 1;
+        gc.gridy = 3;
         add(routeField, gc);
 
         /*
@@ -134,9 +181,9 @@ public class AddMedicationPanel extends JPanel {
         });
 
         // Add Finish Button
-        gc.anchor = GridBagConstraints.LINE_END;
+        gc.anchor = GridBagConstraints.SOUTHEAST;
         gc.gridx = 0;
-        gc.gridy = 3;
+        gc.gridy = 5;
         add(finishButton, gc);
 
         //Create Cancel Button
@@ -150,70 +197,126 @@ public class AddMedicationPanel extends JPanel {
         });
 
         //Add Cancel Button
-        gc.anchor = GridBagConstraints.LINE_START;
+        gc.anchor = GridBagConstraints.SOUTHWEST;
         gc.gridx = 1;
-        gc.gridy = 3;
-        add(cancelButton,gc);
+        gc.gridy = 5;
+        add(cancelButton, gc);
 
     }
 
+    /*******************  Constructor that is called when editing an existing medication  ****************/
     public AddMedicationPanel(Medication medication) {
         Dimension size = getPreferredSize();
         size.width = 400;
         setPreferredSize(size);
 
-        setBorder(BorderFactory.createTitledBorder("Add New Medication"));
+        setBorder(BorderFactory.createTitledBorder("Edit Medication"));
 
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
         // Adding fields to add medication info
+
+        JLabel name = new JLabel("Medication Name");
+        gc.anchor = GridBagConstraints.SOUTH;
+        gc.weightx = 0;
+        gc.weighty = 0.5;
+        gc.gridx = 0;
+        gc.gridy = 0;
+        add(name, gc);
+
         JTextField nameField = new JTextField(20);
-        TextPrompt namePrompt = new TextPrompt("Medication Name", nameField);
+        TextPrompt namePrompt = new TextPrompt("Ex: Omeprazole 100mg", nameField);
         nameField.setText(medication.getName());
         namePrompt.setForeground(Color.GRAY);
         nameField.add(namePrompt);
+        gc.anchor = GridBagConstraints.NORTH;
         gc.weightx = 1;
         gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 0;
+        gc.gridy = 1;
         add(nameField, gc);
 
+        JLabel PIDLabel = new JLabel("PID");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 2;
+        add(PIDLabel, gc);
+
         JTextField PIDField = new JTextField(20);
-        TextPrompt PIDPrompt = new TextPrompt("PID", PIDField);
+        TextPrompt PIDPrompt = new TextPrompt("Ex: 123456", PIDField);
         PIDField.setText(Integer.toString(medication.getPID()));
         PIDPrompt.setForeground(Color.GRAY);
         PIDField.add(PIDPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 1;
+        gc.gridy = 3;
         add(PIDField, gc);
 
+        JLabel time = new JLabel("Time Taken");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 0;
+        gc.gridy = 4;
+        add(time, gc);
+        
         JTextField timeField = new JTextField(20);
-        TextPrompt timePrompt = new TextPrompt("Time Taken MM/dd/yyyy HH:mm", timeField);
+        TextPrompt timePrompt = new TextPrompt("Format: MM/dd/yyyy HH:mm", timeField);
         timeField.setText(medication.getTime());
         timePrompt.setForeground(Color.GRAY);
         timeField.add(timePrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
-        gc.gridy = 2;
+        gc.gridy = 5;
         add(timeField, gc);
 
+        JLabel frequency = new JLabel("Frequency");
+        gc.anchor = GridBagConstraints.SOUTH;
+        gc.weightx = 0;
+        gc.weighty = 0.5;
+        gc.gridx = 1;
+        gc.gridy = 0;
+        add(frequency, gc);
+
         JTextField frequencyField = new JTextField(20);
-        TextPrompt frequencyPrompt = new TextPrompt("Frequency", frequencyField);
+        TextPrompt frequencyPrompt = new TextPrompt("Ex: Every 2 hours", frequencyField);
         frequencyField.setText(medication.getFrequency());
         frequencyPrompt.setForeground(Color.GRAY);
         frequencyField.add(frequencyPrompt);
+        gc.anchor = GridBagConstraints.NORTH;
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
-        gc.gridy = 0;
+        gc.gridy = 1;
         add(frequencyField, gc);
 
+        JLabel route = new JLabel("Route");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 2;
+        add(route, gc);
+
         JTextField routeField = new JTextField(20);
-        TextPrompt routePrompt = new TextPrompt("Route", routeField);
+        TextPrompt routePrompt = new TextPrompt("Ex: Oral tablet", routeField);
         routeField.setText(medication.getRoute());
         routePrompt.setForeground(Color.GRAY);
         routeField.add(routePrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
-        gc.gridy = 1;
+        gc.gridy = 3;
         add(routeField, gc);
+
+        JLabel MID = new JLabel("MID");
+        gc.weightx = 0;
+        gc.weighty = 0;
+        gc.gridx = 1;
+        gc.gridy = 4;
+        add(MID, gc);
 
         JTextField MIDField = new JTextField(20);
         TextPrompt MIDPrompt = new TextPrompt("MID", MIDField);
@@ -221,8 +324,10 @@ public class AddMedicationPanel extends JPanel {
         MIDField.setText(medication.getMID());
         MIDPrompt.setForeground(Color.GRAY);
         MIDField.add(MIDPrompt);
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 1;
-        gc.gridy = 2;
+        gc.gridy = 5;
         add(MIDField, gc);
 
         // Create Finish button to save changes
@@ -277,7 +382,7 @@ public class AddMedicationPanel extends JPanel {
         // Add Finish Button
         gc.anchor = GridBagConstraints.LINE_END;
         gc.gridx = 0;
-        gc.gridy = 3;
+        gc.gridy = 6;
         add(finishButton, gc);
 
         //Create Cancel Button
@@ -293,7 +398,7 @@ public class AddMedicationPanel extends JPanel {
         //Add Cancel Button
         gc.anchor = GridBagConstraints.LINE_START;
         gc.gridx = 1;
-        gc.gridy = 3;
+        gc.gridy = 6;
         add(cancelButton,gc);
     }
 

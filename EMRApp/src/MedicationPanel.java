@@ -40,7 +40,7 @@ public class MedicationPanel extends JPanel {
         Object[][] data = new Object[numrows][numcols];
 
         JTable medicationTable = new JTable(data, col);
-        medicationTable.setPreferredScrollableViewportSize(new Dimension(400, 350));
+        medicationTable.setPreferredScrollableViewportSize(new Dimension(350, 350));
         medicationTable.setFillsViewportHeight(true);
 
         JScrollPane scrollPane = new JScrollPane(medicationTable);
@@ -104,7 +104,7 @@ public class MedicationPanel extends JPanel {
 
         // Fill in Data array
         for (int r = 0; r < numrows; r++) {
-            System.out.println("Current Med is: " + medications.get(r).getName());
+            //System.out.println("Current Med is: " + medications.get(r).getName());
             data[r][0] = medications.get(r).getName();
             data[r][1] = medications.get(r).getFrequency();
             data[r][2] = medications.get(r).getRoute();
