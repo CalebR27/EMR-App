@@ -3,6 +3,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.table.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MedicationPanel extends JPanel {
 
@@ -106,10 +108,13 @@ public class MedicationPanel extends JPanel {
             data[r][0] = medications.get(r).getName();
             data[r][1] = medications.get(r).getFrequency();
             data[r][2] = medications.get(r).getRoute();
-            data[r][3] = medications.get(r).getTime();
+            data[r][3] = LocalDateTime.parse(medications.get(r).getTime().replace(" ", "T"));
             data[r][4] = medications.get(r).getMID();
         }
         JTable medicationTable = new JTable(data, col);
+
+        medicationTable.setAutoCreateRowSorter(true);
+        medicationTable.getRowSorter().toggleSortOrder(3);
         medicationTable.setPreferredScrollableViewportSize(new Dimension(350, 350));
         medicationTable.setFillsViewportHeight(true);
 
@@ -120,7 +125,21 @@ public class MedicationPanel extends JPanel {
         for (int column = 0; column < medicationTable.getColumnCount(); column++) {
             int width = 10; // Min width
             for (int row = 0; row < medicationTable.getRowCount(); row++) {
-                TableCellRenderer renderer = medicationTable.getCellRenderer(row, column);
+
+                //Creating a renderer to format the Time Taken cells
+                TableCellRenderer renderer = new DefaultTableCellRenderer() {
+
+                    DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm");
+
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                            boolean hasFocus, int row, int column) {
+                        if (value instanceof LocalDateTime) {
+                            value = format.format((LocalDateTime)value);
+                        }
+                        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    }
+                };
+                medicationTable.getColumnModel().getColumn(3).setCellRenderer(renderer);
                 Component comp = medicationTable.prepareRenderer(renderer, row, column);
                 width = Math.max(comp.getPreferredSize().width + 1, width);
             }
@@ -242,4 +261,5 @@ public class MedicationPanel extends JPanel {
     public void removeMedicationTableListener(MedicationTableListener listener) {
         listenerList.remove(MedicationTableListener.class, listener);
     }
+
 }

@@ -31,7 +31,7 @@ public class Medication {
         this.PID = PID;
         this.route = route;
         this.time = time;
-        changeTimeFormat();
+        //changeTimeFormat();
         this.MID = MID;
     }
 
