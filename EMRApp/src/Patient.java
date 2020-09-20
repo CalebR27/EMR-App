@@ -118,4 +118,24 @@ public class Patient {
         this.notes = notes;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        // If the object is compared with itself then return true   
+        if (o == this) { 
+            return true; 
+        } 
+  
+        /* Check if o is an instance of Patient or not 
+          "null instanceof [type]" also returns false */
+        if (!(o instanceof Patient)) { 
+            return false; 
+        } 
+          
+        // typecast o to Patient so that we can compare data members  
+        Patient c = (Patient) o; 
+          
+        // Compare the data members and return accordingly  
+        return Integer.compare(this.PID, c.getPID()) == 0; 
+    }
+
 }

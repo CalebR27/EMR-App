@@ -66,6 +66,7 @@ public class AddPatientFrame extends JFrame {
 
                     mainFrame.dispose();
                     mainFrame = new MainFrame("EHR");
+                    mainFrame.selectPatient(newPatient);
                     mainFrame.setSize(1000,500);
                     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     thisFrame.setVisible(false);
@@ -128,6 +129,7 @@ public class AddPatientFrame extends JFrame {
 
                     mainFrame.dispose();
                     mainFrame = new MainFrame("EHR");
+                    mainFrame.selectPatient(newPatient);
                     mainFrame.setSize(1000,500);
                     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     thisFrame.setVisible(false);

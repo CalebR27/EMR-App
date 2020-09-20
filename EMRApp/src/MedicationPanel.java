@@ -9,6 +9,13 @@ import java.time.format.DateTimeFormatter;
 public class MedicationPanel extends JPanel {
 
     private Medication medicationToEdit;
+    private ArrayList<Medication> medications;
+
+    private JButton newMedicationButton;
+    private JButton editMedicationButton;
+    private JButton deleteMedicationButton;
+
+    private JTable medicationTable;
 
     public MedicationPanel() {
         Dimension size = getPreferredSize();
@@ -21,16 +28,16 @@ public class MedicationPanel extends JPanel {
         GridBagConstraints gc = new GridBagConstraints();
 
         // Creating button to Add New Medication
-        JButton newMedicationButton = new JButton("New Medication");
+        newMedicationButton = new JButton("New Medication");
 
         // Creating button to Edit selected Medication. This will be disabled until a
         // medication is selected
-        JButton editMedicationButton = new JButton("Edit Medication");
+        editMedicationButton = new JButton("Edit Medication");
         editMedicationButton.setEnabled(false);
 
         // Creating button to Delete selected Medication. This will be disabled until a
         // medication is selected
-        JButton deleteMedicationButton = new JButton("Delete Medication");
+        deleteMedicationButton = new JButton("Delete Medication");
         deleteMedicationButton.setEnabled(false);
 
         // Create Medication Table
@@ -39,7 +46,7 @@ public class MedicationPanel extends JPanel {
         String[] col = { "Name", "Freq", "Route", "Last Taken", "MID" };
         Object[][] data = new Object[numrows][numcols];
 
-        JTable medicationTable = new JTable(data, col);
+        medicationTable = new JTable(data, col);
         medicationTable.setPreferredScrollableViewportSize(new Dimension(350, 350));
         medicationTable.setFillsViewportHeight(true);
 
@@ -77,7 +84,7 @@ public class MedicationPanel extends JPanel {
         });
     }
 
-    public void addMedications(ArrayList<Medication> medications) {
+    public void addMedications(ArrayList<Medication> medicationList) {
         removeAll();
 
         Dimension size = getPreferredSize();
@@ -88,12 +95,14 @@ public class MedicationPanel extends JPanel {
 
         GridBagConstraints gc = new GridBagConstraints();
 
-        JButton newMedicationButton = new JButton("New Medication");
+        this.medications = medicationList;
 
-        JButton editMedicationButton = new JButton("Edit Medication");
+        newMedicationButton = new JButton("New Medication");
+
+        editMedicationButton = new JButton("Edit Medication");
         editMedicationButton.setEnabled(false);
 
-        JButton deleteMedicationButton = new JButton("Delete Medication");
+        deleteMedicationButton = new JButton("Delete Medication");
         deleteMedicationButton.setEnabled(false);
 
         // Create Medication Table
@@ -111,9 +120,10 @@ public class MedicationPanel extends JPanel {
             data[r][3] = LocalDateTime.parse(medications.get(r).getTime().replace(" ", "T"));
             data[r][4] = medications.get(r).getMID();
         }
-        JTable medicationTable = new JTable(data, col);
+        medicationTable = new JTable(data, col);
 
         medicationTable.setAutoCreateRowSorter(true);
+        medicationTable.getRowSorter().toggleSortOrder(3);
         medicationTable.getRowSorter().toggleSortOrder(3);
         medicationTable.setPreferredScrollableViewportSize(new Dimension(350, 350));
         medicationTable.setFillsViewportHeight(true);
@@ -162,10 +172,7 @@ public class MedicationPanel extends JPanel {
                 }
 
                 Medication value = medications.get(index);
-                editMedicationButton.setEnabled(true);
-                deleteMedicationButton.setEnabled(true);
-                medicationToEdit = value;
-                fireMedicationTableEvent(new MedicationEvent(this, value));
+                selectMedication(value);
             }
 
             public void mouseExited(MouseEvent e) {
@@ -225,6 +232,20 @@ public class MedicationPanel extends JPanel {
         gc.gridx = 2;
         add(deleteMedicationButton, gc);
 
+    }
+
+    public void selectMedication(Medication medicationToSelect) {
+        if(medicationTable.getSelectionModel().isSelectionEmpty()) {
+            
+            int index = medications.indexOf(medicationToSelect);
+            medicationTable.setRowSelectionInterval(index, index);
+            String i = medicationTable.getModel().getValueAt(index, 4).toString();
+        }
+
+        editMedicationButton.setEnabled(true);
+        deleteMedicationButton.setEnabled(true);
+        medicationToEdit = medicationToSelect;
+        fireMedicationTableEvent(new MedicationEvent(this, medicationToSelect));
     }
 
     public void fireMedicationButtonEvent(MedicationEvent event) {

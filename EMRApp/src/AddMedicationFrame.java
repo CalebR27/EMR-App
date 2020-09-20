@@ -23,6 +23,7 @@ public class AddMedicationFrame extends JFrame {
         addMedicationPanel.addDirectoryButtonListener(new DirectoryButtonListener() {
             public void directoryEventOccurred(DirectoryEvent event) {
                 ArrayList<Medication> medications = event.getMedications();
+                Patient patient = null;
                 if(medications != null) {
                     for(Medication m : medications) {
                         ArrayList<String> update = new ArrayList<String>();
@@ -33,6 +34,9 @@ public class AddMedicationFrame extends JFrame {
                                 JOptionPane.showMessageDialog(null, "Medication with this MID already exists.");
                                 return;
                             }
+                            ArrayList<String> row = Database.get("Patients", "PID", m.getPID()).get(0);
+                            patient = new Patient(row.get(0), Integer.valueOf(row.get(1)).intValue(), row.get(2), row.get(3),
+                            Integer.valueOf(row.get(4)).intValue(), row.get(5));
 
                             if (Database.get("Patients", "PID", m.getPID()).size() == 0) {
                                 System.out.println("Cannot find patient with this PID.");
@@ -57,6 +61,8 @@ public class AddMedicationFrame extends JFrame {
                     }
                     mainFrame.dispose();
                     mainFrame = new MainFrame("EHR");
+                    mainFrame.selectPatient(patient);
+                    mainFrame.selectMedication(medications.get(0));
                     mainFrame.setSize(1000,500);
                     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     thisFrame.setVisible(false);
@@ -101,6 +107,7 @@ public class AddMedicationFrame extends JFrame {
                     }
                     mainFrame.dispose();
                     mainFrame = new MainFrame("EHR");
+                    mainFrame.selectMedication(medications.get(0));
                     mainFrame.setSize(1000,500);
                     mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     thisFrame.setVisible(false);

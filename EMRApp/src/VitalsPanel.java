@@ -9,7 +9,7 @@ public class VitalsPanel extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
-        JLabel heightLabel = new JLabel("Height(cm): ");
+        JLabel heightLabel = new JLabel("Height (cm): ");
         gc.anchor = GridBagConstraints.LINE_START;
         gc.weightx = 0.1;
         gc.weighty = 0.1;
@@ -17,7 +17,7 @@ public class VitalsPanel extends JPanel {
         gc.gridy = 0;
         add(heightLabel, gc);
 
-        JLabel weightLabel = new JLabel("Weight(lbs): ");
+        JLabel weightLabel = new JLabel("Weight (lbs): ");
         gc.anchor = GridBagConstraints.LINE_START;
         gc.weightx = 0.1;
         gc.weighty = 0.1;
@@ -33,7 +33,7 @@ public class VitalsPanel extends JPanel {
         gc.gridy = 2;
         add(BPMLabel, gc);
 
-        JLabel temperatureLabel = new JLabel("Temperature(F): ");
+        JLabel temperatureLabel = new JLabel("Temperature (F): ");
         gc.anchor = GridBagConstraints.LINE_START;
         gc.weightx = 0.1;
         gc.weighty = 0.1;
@@ -74,7 +74,7 @@ public class VitalsPanel extends JPanel {
         String BPval = vitals.getBP();
         String positionval = vitals.getPosition();
 
-        JLabel heightLabel = new JLabel("Height(cm): " + heightval);
+        JLabel heightLabel = new JLabel("Height (cm): " + heightval);
         gc.anchor = GridBagConstraints.LINE_START;
         gc.weightx = 0.1;
         gc.weighty = 0.1;
@@ -82,7 +82,7 @@ public class VitalsPanel extends JPanel {
         gc.gridy = 0;
         add(heightLabel, gc);
 
-        JLabel weightLabel = new JLabel("Weight(lbs): " + weightval);
+        JLabel weightLabel = new JLabel("Weight (lbs): " + weightval);
         gc.anchor = GridBagConstraints.LINE_START;
         gc.weightx = 0.1;
         gc.weighty = 0.1;
@@ -98,7 +98,7 @@ public class VitalsPanel extends JPanel {
         gc.gridy = 2;
         add(BPMLabel, gc);
 
-        JLabel temperatureLabel = new JLabel("Temperature(F): " + temperatureval);
+        JLabel temperatureLabel = new JLabel("Temperature (F): " + temperatureval);
         gc.anchor = GridBagConstraints.LINE_START;
         gc.weightx = 0.1;
         gc.weighty = 0.1;

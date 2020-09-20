@@ -108,5 +108,25 @@ public class Medication {
         this.MID = MID;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        // If the object is compared with itself then return true   
+        if (o == this) { 
+            return true; 
+        } 
+  
+        /* Check if o is an instance of Medication or not 
+          "null instanceof [type]" also returns false */
+        if (!(o instanceof Medication)) { 
+            return false; 
+        } 
+          
+        // typecast o to Medication so that we can compare data members  
+        Medication c = (Medication) o; 
+          
+        // Compare the data members and return accordingly  
+        return this.MID.equals(c.getMID());
+    }
+
 
 }

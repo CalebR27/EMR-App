@@ -8,8 +8,18 @@ import java.util.*;
 public class DirectoryPanel extends JPanel {
 
     private EventListenerList listenerList = new EventListenerList();
+
+    private ArrayList<Patient> patients;
+    private ArrayList<Vitals> vitals;
+    private ArrayList<Medication> medications;
+
     private Patient patientToEdit;
     private Vitals vitalsToEdit;
+
+    private JButton newPatientButton;
+    private JButton editPatientButton;
+    private JButton deletePatientButton;
+    private JTable patientTable;
 
     public DirectoryPanel() {
         Dimension size = getPreferredSize();
@@ -22,17 +32,16 @@ public class DirectoryPanel extends JPanel {
         GridBagConstraints gc = new GridBagConstraints();
 
         // Create array of Patients, Vitals, and Medications
-        ArrayList<Patient> patients = new ArrayList<Patient>();
-        ArrayList<Vitals> vitals = new ArrayList<Vitals>();
-        ArrayList<Medication> medications = new ArrayList<Medication>();
+        patients = new ArrayList<Patient>();
+        vitals = new ArrayList<Vitals>();
+        medications = new ArrayList<Medication>();
         try {
             ArrayList<ArrayList<String>> results = Database.get("Patients");
 
             // Adding results into an array of Patients
             for (ArrayList<String> row : results) {
-                patients.add(new Patient(row.get(0), Integer.valueOf(row.get(1)).intValue(), 
-                    row.get(2), row.get(3), Integer.valueOf(row.get(4)).intValue(), 
-                    row.get(5)));
+                patients.add(new Patient(row.get(0), Integer.valueOf(row.get(1)).intValue(), row.get(2), row.get(3),
+                        Integer.valueOf(row.get(4)).intValue(), row.get(5)));
             }
 
         } catch (Exception e) {
@@ -42,11 +51,11 @@ public class DirectoryPanel extends JPanel {
         try {
             ArrayList<ArrayList<String>> results = Database.get("Vitals");
 
-            //Adding results into an array of Vitals
+            // Adding results into an array of Vitals
             for (ArrayList<String> row : results) {
                 vitals.add(new Vitals(Integer.valueOf(row.get(0)).intValue(), Integer.valueOf(row.get(1)).intValue(),
-                    Integer.valueOf(row.get(2)).intValue(), Float.valueOf(row.get(3)).floatValue(), 
-                    Integer.valueOf(row.get(4)).intValue(), row.get(5), row.get(6)));
+                        Integer.valueOf(row.get(2)).intValue(), Float.valueOf(row.get(3)).floatValue(),
+                        Integer.valueOf(row.get(4)).intValue(), row.get(5), row.get(6)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -55,10 +64,10 @@ public class DirectoryPanel extends JPanel {
         try {
             ArrayList<ArrayList<String>> results = Database.get("Medication");
 
-            //Adding results into an array of Medications
+            // Adding results into an array of Medications
             for (ArrayList<String> row : results) {
-                medications.add(new Medication(row.get(0), row.get(1), Integer.valueOf(row.get(2)).intValue(), row.get(3),
-                    row.get(4), row.get(5)));
+                medications.add(new Medication(row.get(0), row.get(1), Integer.valueOf(row.get(2)).intValue(),
+                        row.get(3), row.get(4), row.get(5)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -75,7 +84,7 @@ public class DirectoryPanel extends JPanel {
             data[r][0] = patients.get(r).getPID();
             data[r][1] = patients.get(r).getName();
         }
-        JTable patientTable = new JTable(data, col);
+        patientTable = new JTable(data, col);
         patientTable.setPreferredScrollableViewportSize(new Dimension(150, 250));
         patientTable.setFillsViewportHeight(true);
 
@@ -95,14 +104,14 @@ public class DirectoryPanel extends JPanel {
             columnModel.getColumn(column).setPreferredWidth(width);
         }
         // Create Add New Patient Button
-        JButton newPatientButton = new JButton("New Patient");
+        newPatientButton = new JButton("New Patient");
 
         // Create Edit Patient Button
-        JButton editPatientButton = new JButton("Edit Patient");
+        editPatientButton = new JButton("Edit Patient");
         editPatientButton.setEnabled(false);
 
-        //Create Delete Patient Button
-        JButton deletePatientButton = new JButton("Delete Patient");
+        // Create Delete Patient Button
+        deletePatientButton = new JButton("Delete Patient");
         deletePatientButton.setEnabled(false);
 
         // Add a listener for when a certain patient is selected
@@ -118,36 +127,8 @@ public class DirectoryPanel extends JPanel {
                     return;
                 }
 
-                Patient value1 = patients.get(index);
-
-                editPatientButton.setEnabled(true);
-                deletePatientButton.setEnabled(true);
-
-                //This patient will be edited if "Edit Patient" button is clicked, or deleted if "Delete Patient" button is clicked
-                patientToEdit = value1;
-
-                //Get PID of selected patient
-                int currentPID = value1.getPID();
-
-                //Search for vitals with corresponding PID
-                Vitals value2 = null;
-                for (Vitals v : vitals) {
-                    if (v.getPID() == currentPID) {
-                        value2 = v;
-                    }
-                }
-
-                //This patient's vitals will be edited if "Edit Patient" button is clicked, or deleted if "Delete Patient" button is clicked
-                vitalsToEdit = value2;
-
-                //Search for medication with corresponding PID and add to another array to send back
-                ArrayList<Medication> value3 = new ArrayList<Medication>();
-                for (Medication m : medications) {
-                    if(m.getPID() == currentPID) {
-                        value3.add(m);
-                    }
-                }
-                fireDirectoryTableEvent(new DirectoryEvent(this, value1, value2, value3));
+                Patient value = patients.get(index);
+                selectPatient(value);
             }
 
             public void mouseExited(MouseEvent e) {
@@ -205,9 +186,48 @@ public class DirectoryPanel extends JPanel {
         gc.gridy = 2;
         add(editPatientButton, gc);
 
-        // Adding Delete Patient Button. It is set to Disabled until a patient is selected
+        // Adding Delete Patient Button. It is set to Disabled until a patient is
+        // selected
         gc.gridy = 3;
         add(deletePatientButton, gc);
+    }
+
+    public void selectPatient(Patient patientToSelect) {
+        if(patientTable.getSelectionModel().isSelectionEmpty()) {
+            int index = patients.indexOf(patientToSelect);
+            patientTable.setRowSelectionInterval(index, index);
+        }
+        editPatientButton.setEnabled(true);
+        deletePatientButton.setEnabled(true);
+
+        // This patient will be edited if "Edit Patient" button is clicked, or deleted
+        // if "Delete Patient" button is clicked
+        patientToEdit = patientToSelect;
+
+        // Get PID of selected patient
+        int currentPID = patientToSelect.getPID();
+
+        // Search for vitals with corresponding PID
+        Vitals value2 = null;
+        for (Vitals v : vitals) {
+            if (v.getPID() == currentPID) {
+                value2 = v;
+            }
+        }
+
+        // This patient's vitals will be edited if "Edit Patient" button is clicked, or
+        // deleted if "Delete Patient" button is clicked
+        vitalsToEdit = value2;
+
+        // Search for medication with corresponding PID and add to another array to send
+        // back
+        ArrayList<Medication> value3 = new ArrayList<Medication>();
+        for (Medication m : medications) {
+            if (m.getPID() == currentPID) {
+                value3.add(m);
+            }
+        }
+        fireDirectoryTableEvent(new DirectoryEvent(this, patientToEdit, value2, value3));
     }
 
     public void fireDirectoryButtonEvent(DirectoryEvent event) {

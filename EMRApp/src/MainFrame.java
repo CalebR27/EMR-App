@@ -130,4 +130,12 @@ public class MainFrame extends JFrame {
         container.add(middlePanel, BorderLayout.CENTER);
         container.add(medicationPanel, BorderLayout.EAST);
     }
+
+    public void selectPatient(Patient patientToSelect){
+        this.directoryPanel.selectPatient(patientToSelect);
+    }
+
+    public void selectMedication(Medication medicationToSelect){
+        this.medicationPanel.selectMedication(medicationToSelect);
+    }
 }
