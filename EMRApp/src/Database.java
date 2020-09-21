@@ -22,9 +22,15 @@ public class Database {
 
     // Creates connection to the database
     public static Connection getConnection() throws Exception {
+
+        String address = "ehr.c6z38v2fdj8u.us-east-1.rds.amazonaws.com:1433";
+        String name = "EMR";
+        String username = "java";
+        String password = "java";
+
         try {
 
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=EHR;user=java;password=java";
+            String url = "jdbc:sqlserver://" + address + ";databaseName=" + name + ";user=" + username + ";password=" + password;
             Connection conn = DriverManager.getConnection(url);
             System.out.println("Connected");
             return conn;
