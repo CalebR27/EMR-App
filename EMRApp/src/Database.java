@@ -53,6 +53,7 @@ public class Database {
             PreparedStatement create = conn
                     .prepareStatement("CREATE TABLE " + tablename + " (id int NOT NULL, PRIMARY KEY(id))");
             create.executeUpdate();
+            conn.close();
 
         } catch (Exception e) {
 
@@ -71,6 +72,7 @@ public class Database {
             Connection conn = getConnection();
             PreparedStatement create = conn.prepareStatement("DROP TABLE " + tablename);
             create.executeUpdate();
+            conn.close();
 
         } catch (Exception e) {
 
@@ -153,6 +155,7 @@ public class Database {
             PreparedStatement post = conn
                     .prepareStatement("ALTER TABLE " + tablename + " ADD COLUMN " + column + " " + type);
             post.executeUpdate();
+            conn.close();
 
         } catch (Exception e) {
 
@@ -173,6 +176,7 @@ public class Database {
             PreparedStatement post = conn
                     .prepareStatement("UPDATE " + tablename + " SET " + column + "=" + value + " WHERE PID=" + pid);
             post.executeUpdate();
+            conn.close();
 
         } catch (Exception e) {
 
@@ -193,6 +197,7 @@ public class Database {
             PreparedStatement post = conn
                     .prepareStatement("UPDATE " + tablename + " SET " + column + "=" + value + " WHERE MID=" + mid);
             post.executeUpdate();
+            conn.close();
 
         } catch (Exception e) {
 
@@ -213,6 +218,7 @@ public class Database {
             PreparedStatement post = conn
                     .prepareStatement("DELETE FROM " + tablename + " WHERE " + column + "=" + value);
             post.executeUpdate();
+            conn.close();
 
         } catch (Exception e) {
 
@@ -237,6 +243,7 @@ public class Database {
             ResultSet result = statement.executeQuery();
 
             System.out.println("All records have been selected.");
+            conn.close();
             return getResults(result);
 
         } catch (Exception e) {
@@ -266,8 +273,8 @@ public class Database {
             PreparedStatement statement = conn
                     .prepareStatement("SELECT * FROM " + table + " WHERE " + column + "=" + value);
             ResultSet result = statement.executeQuery();
-
             System.out.println("The specified records have been selected.");
+            conn.close();
             return getResults(result);
 
         } catch (Exception e) {
@@ -288,6 +295,7 @@ public class Database {
             ResultSet result = statement.executeQuery();
 
             System.out.println("The specified records have been selected.");
+            conn.close();
             return getResults(result);
 
         } catch (Exception e) {
