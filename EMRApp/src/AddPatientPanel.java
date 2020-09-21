@@ -63,7 +63,7 @@ public class AddPatientPanel extends JPanel {
         add(DOB, gc);
 
         JTextField DOBField = new JTextField(15);
-        TextPrompt DOBPrompt = new TextPrompt("Format: mm/dd/yyyy", DOBField);
+        TextPrompt DOBPrompt = new TextPrompt("mm/dd/yyyy", DOBField);
         DOBPrompt.setForeground(Color.GRAY);
         DOBField.add(DOBPrompt);
         gc.weightx = 1;
@@ -454,7 +454,7 @@ public class AddPatientPanel extends JPanel {
         add(DOB, gc);
 
         JTextField DOBField = new JTextField(15);
-        TextPrompt DOBPrompt = new TextPrompt("Format: mm/dd/yyyy", DOBField);
+        TextPrompt DOBPrompt = new TextPrompt("mm/dd/yyyy", DOBField);
         DOBField.setText(patient.getDOB());
         DOBPrompt.setForeground(Color.GRAY);
         DOBField.add(DOBPrompt);

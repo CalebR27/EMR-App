@@ -121,7 +121,7 @@ public class MedicationPanel extends JPanel {
             data[r][4] = medications.get(r).getMID();
         }
         medicationTable = new JTable(data, col);
-
+        medicationTable.setDefaultEditor(Object.class, null);
         medicationTable.setAutoCreateRowSorter(true);
         medicationTable.getRowSorter().toggleSortOrder(3);
         medicationTable.getRowSorter().toggleSortOrder(3);
@@ -161,18 +161,6 @@ public class MedicationPanel extends JPanel {
         // Add a listener for when a certain medication is selected
         medicationTable.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                Point point = e.getPoint();
-                int index = medicationTable.rowAtPoint(point);
-
-                if (index >= medications.size() || index < 0) {
-                    medicationTable.clearSelection();
-                    editMedicationButton.setEnabled(false);
-                    deleteMedicationButton.setEnabled(false);
-                    return;
-                }
-
-                Medication value = medications.get(index);
-                selectMedication(value);
             }
 
             public void mouseExited(MouseEvent e) {
@@ -185,6 +173,20 @@ public class MedicationPanel extends JPanel {
             }
 
             public void mousePressed(MouseEvent e) {
+                Point point = e.getPoint();
+                int row = medicationTable.rowAtPoint(point);
+
+                if (row >= medications.size() || row < 0) {
+                    medicationTable.clearSelection();
+                    editMedicationButton.setEnabled(false);
+                    deleteMedicationButton.setEnabled(false);
+                    return;
+                }
+                String MID = medicationTable.getValueAt(row, 4).toString();
+                Medication temp = new Medication();
+                temp.setMID(MID);
+                Medication value = medications.get(medications.indexOf(temp));
+                selectMedication(value);
             }
 
         });
@@ -236,10 +238,17 @@ public class MedicationPanel extends JPanel {
 
     public void selectMedication(Medication medicationToSelect) {
         if(medicationTable.getSelectionModel().isSelectionEmpty()) {
-            
-            int index = medications.indexOf(medicationToSelect);
+            int index = 0;
+            int column = 4;
+            String MID = medicationToSelect.getMID();
+            for (int row = 0; row < medicationTable.getRowCount(); row++) {
+                String tempMID = medicationTable.getValueAt(row, column).toString();
+                if(MID.equals(tempMID)) {
+                    index = row;
+                    break;
+                }
+            }
             medicationTable.setRowSelectionInterval(index, index);
-            String i = medicationTable.getModel().getValueAt(index, 4).toString();
         }
 
         editMedicationButton.setEnabled(true);

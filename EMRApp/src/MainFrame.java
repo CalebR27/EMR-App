@@ -50,6 +50,7 @@ public class MainFrame extends JFrame {
 
                     thisFrame.setVisible(false);
                     frame.setVisible(true);
+                    thisFrame.dispose();
                 } else {
                     if(current_patient == null && current_vitals == null){
                         addPatientFrame = new AddPatientFrame("Add Patient", thisFrame);
@@ -102,11 +103,13 @@ public class MainFrame extends JFrame {
                     Database.delete("Medication", "MID", "'" + MID + "'");
 
                     MainFrame frame = new MainFrame("EMR");
+                    frame.selectPatient(patient);
                     frame.setSize(1000,500);
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
                     thisFrame.setVisible(false);
                     frame.setVisible(true);
+                    thisFrame.dispose();
 
                 } else {
                     if (current_medication == null && action == null && patient == null) {
@@ -120,7 +123,6 @@ public class MainFrame extends JFrame {
                     addMedicationFrame.setSize(500, 500);
                     addMedicationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                    //thisFrame.setVisible(false);
                     addMedicationFrame.setVisible(true);
                 }
             }

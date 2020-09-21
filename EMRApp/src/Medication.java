@@ -31,7 +31,6 @@ public class Medication {
         this.PID = PID;
         this.route = route;
         this.time = time;
-        //changeTimeFormat();
         this.MID = MID;
     }
 
@@ -48,7 +47,7 @@ public class Medication {
         this.MID = fullMID;
     }
 
-    private void changeTimeFormat() {
+    public void changeTimeFormat() {
         if (this.time != null && this.time.contains("-")) {
             String year = this.time.substring(0, 4);
             String month = this.time.substring(5, 7);

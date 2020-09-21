@@ -68,7 +68,7 @@ public class AddMedicationPanel extends JPanel {
         add(time, gc);
         
         JTextField timeField = new JTextField(20);
-        TextPrompt timePrompt = new TextPrompt("Format: MM/dd/yyyy HH:mm", timeField);
+        TextPrompt timePrompt = new TextPrompt("MM/dd/yyyy HH:mm", timeField);
         timePrompt.setForeground(Color.GRAY);
         timeField.add(timePrompt);
         gc.weightx = 1;
@@ -263,7 +263,8 @@ public class AddMedicationPanel extends JPanel {
         add(time, gc);
         
         JTextField timeField = new JTextField(20);
-        TextPrompt timePrompt = new TextPrompt("Format: MM/dd/yyyy HH:mm", timeField);
+        TextPrompt timePrompt = new TextPrompt("MM/dd/yyyy HH:mm", timeField);
+        medication.changeTimeFormat();
         timeField.setText(medication.getTime());
         timePrompt.setForeground(Color.GRAY);
         timeField.add(timePrompt);
@@ -345,16 +346,10 @@ public class AddMedicationPanel extends JPanel {
                         return; 
                 }
 
-
-
-                Medication newMedication = new Medication(nameField.getText(), frequencyField.getText(),
-                    Integer.valueOf(PIDField.getText()).intValue(), routeField.getText(), timeField.getText(),
-                    MIDField.getText());
-
                 //Checking to see if the user entered a valid date & time
-                String java_pattern = "MM/dd/yyyy hh:mm";
+                String java_pattern = "MM/dd/yyyy HH:mm";
                 SimpleDateFormat sdf = new SimpleDateFormat(java_pattern);
-                String med_Time = newMedication.getTime();
+                String med_Time = timeField.getText();
                 Date time = null;
                 try {
                     time = sdf.parse(med_Time);
@@ -366,11 +361,14 @@ public class AddMedicationPanel extends JPanel {
                     e1.printStackTrace();
                 }
                 if(time == null) {
-                    newMedication = null;
                     System.out.println("The Time is not in the correct format");
                     JOptionPane.showMessageDialog(null, "The Time is not in the correct format.");
                     return;
                 }
+
+                Medication newMedication = new Medication(nameField.getText(), frequencyField.getText(),
+                    Integer.valueOf(PIDField.getText()).intValue(), routeField.getText(), timeField.getText(),
+                    MIDField.getText());
 
                 ArrayList<Medication> medications = new ArrayList<Medication>();
                 medications.add(newMedication);

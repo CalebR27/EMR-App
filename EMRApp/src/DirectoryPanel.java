@@ -85,6 +85,9 @@ public class DirectoryPanel extends JPanel {
             data[r][1] = patients.get(r).getName();
         }
         patientTable = new JTable(data, col);
+        patientTable.setDefaultEditor(Object.class, null);
+        patientTable.setAutoCreateRowSorter(true);
+        patientTable.getRowSorter().toggleSortOrder(0);
         patientTable.setPreferredScrollableViewportSize(new Dimension(150, 250));
         patientTable.setFillsViewportHeight(true);
 
@@ -117,18 +120,6 @@ public class DirectoryPanel extends JPanel {
         // Add a listener for when a certain patient is selected
         patientTable.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                Point point = e.getPoint();
-                int index = patientTable.rowAtPoint(point);
-
-                if (index >= patients.size() || index < 0) {
-                    patientTable.clearSelection();
-                    editPatientButton.setEnabled(false);
-                    deletePatientButton.setEnabled(false);
-                    return;
-                }
-
-                Patient value = patients.get(index);
-                selectPatient(value);
             }
 
             public void mouseExited(MouseEvent e) {
@@ -141,6 +132,20 @@ public class DirectoryPanel extends JPanel {
             }
 
             public void mousePressed(MouseEvent e) {
+                Point point = e.getPoint();
+                int index = patientTable.rowAtPoint(point);
+
+                if (index >= patients.size() || index < 0) {
+                    patientTable.clearSelection();
+                    editPatientButton.setEnabled(false);
+                    deletePatientButton.setEnabled(false);
+                    return;
+                }
+                int PID = ((Integer)patientTable.getValueAt(index, 0)).intValue();
+                Patient temp = new Patient();
+                temp.setPID(PID);
+                Patient value = patients.get(patients.indexOf(temp));
+                selectPatient(value);
             }
 
         });
@@ -194,7 +199,16 @@ public class DirectoryPanel extends JPanel {
 
     public void selectPatient(Patient patientToSelect) {
         if(patientTable.getSelectionModel().isSelectionEmpty()) {
-            int index = patients.indexOf(patientToSelect);
+            int index = 0;
+            int column = 0;
+            int PID = patientToSelect.getPID();
+            for (int row = 0; row < patientTable.getRowCount(); row++) {
+                int tempPID = ((Integer)patientTable.getValueAt(row, column)).intValue();
+                if(PID == tempPID) {
+                    index = row;
+                    break;
+                }
+            }
             patientTable.setRowSelectionInterval(index, index);
         }
         editPatientButton.setEnabled(true);
