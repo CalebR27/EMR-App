@@ -243,8 +243,9 @@ public class Database {
             ResultSet result = statement.executeQuery();
 
             System.out.println("All records have been selected.");
+            ArrayList<ArrayList<String>> tempResults = getResults(result);
             conn.close();
-            return getResults(result);
+            return tempResults;
 
         } catch (Exception e) {
 
@@ -274,8 +275,9 @@ public class Database {
                     .prepareStatement("SELECT * FROM " + table + " WHERE " + column + "=" + value);
             ResultSet result = statement.executeQuery();
             System.out.println("The specified records have been selected.");
+            ArrayList<ArrayList<String>> tempResults = getResults(result);
             conn.close();
-            return getResults(result);
+            return tempResults;
 
         } catch (Exception e) {
 
@@ -295,8 +297,9 @@ public class Database {
             ResultSet result = statement.executeQuery();
 
             System.out.println("The specified records have been selected.");
+            ArrayList<ArrayList<String>> tempResults = getResults(result);
             conn.close();
-            return getResults(result);
+            return tempResults;
 
         } catch (Exception e) {
 
