@@ -1,5 +1,5 @@
 # EMR-App
-Sample Electronic Medical Records System connected to a backend database using a JDBC driver.
+Sample Electronic Medical Records System connected to a backend database using a JDBC driver. Backend database is running on AWS RDS.
 
 There are three tables, each with their own fields. They are as follows:
 
@@ -40,7 +40,7 @@ Main application (divided into three panels)
 Add Patient (where new patients are added into the database)
 Add Medication (where new medication is added into the database)
 
-***********Requirements************
+**********Requirements**********
 
 1.Ensure you are running on JDK14 or higher.
 
